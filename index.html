@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Browse, recolor, and export icons as SVG, PNG, or WebP." />
+    <meta name="theme-color" content="#f6eddc" />
+    <title>Retro Icon Shelf</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="icon-manifest.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="banner" aria-label="Icon library overview">
+        <div>
+          <p class="eyebrow">Free Awesome Pro Shelf</p>
+          <h1>Retro Icon Picker</h1>
+        </div>
+        <div class="banner-stats">
+          <span id="totalCount">0 icons</span>
+          <span id="categoryCount">0 styles</span>
+        </div>
+      </section>
+
+      <section class="workspace" aria-label="Icon browser and editor">
+        <section class="browser-panel" aria-label="Browse icons">
+          <label class="search-box">
+            <span>Search</span>
+            <input id="searchInput" type="search" placeholder="heart, github, arrow..." autocomplete="off" />
+          </label>
+
+          <div id="tabs" class="tabs" role="tablist" aria-label="Icon categories"></div>
+
+          <div class="result-row">
+            <span id="resultCount">0 results</span>
+            <span id="activeCategory">All categories</span>
+          </div>
+
+          <div id="iconScroll" class="icon-scroll">
+            <div id="iconGrid" class="icon-grid" aria-live="polite"></div>
+            <button id="loadMore" class="load-more" type="button">Load more</button>
+            <p id="emptyState" class="empty-state">No icons found.</p>
+          </div>
+        </section>
+
+        <aside class="editor-panel" aria-label="Selected icon editor">
+          <div class="preview-stage">
+            <div id="previewBox" class="preview-box">
+              <span>Select an icon</span>
+            </div>
+          </div>
+
+          <div class="selected-meta">
+            <p id="selectedName">No icon selected</p>
+            <span id="selectedPath">Choose one from the shelf</span>
+          </div>
+
+          <div class="controls">
+            <label>
+              Icon color
+              <input id="iconColor" type="color" value="#2d232e" />
+            </label>
+            <label>
+              Canvas size
+              <select id="exportSize">
+                <option value="128">128px</option>
+                <option value="256" selected>256px</option>
+                <option value="512">512px</option>
+                <option value="1024">1024px</option>
+              </select>
+            </label>
+            <label>
+              Padding
+              <input id="paddingRange" type="range" min="0" max="96" value="32" />
+            </label>
+          </div>
+
+          <div class="download-row">
+            <button id="downloadSvg" type="button" disabled>SVG</button>
+            <button id="downloadPng" type="button" disabled>PNG</button>
+            <button id="downloadWebp" type="button" disabled>WebP</button>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+  </body>
+</html>
