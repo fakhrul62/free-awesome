@@ -6,9 +6,9 @@
     <meta name="description" content="Browse, recolor, and export icons as SVG, PNG, or WebP." />
     <meta name="theme-color" content="#f6eddc" />
     <title>Retro Icon Shelf</title>
-    <link rel="stylesheet" href="styles.css" />
-    <script defer src="icon-manifest.js"></script>
-    <script defer src="app.js"></script>
+    <link rel="stylesheet" href="styles.css?v=20260622-4" />
+    <script defer src="icon-manifest.js?v=20260622-2"></script>
+    <script defer src="app.js?v=20260622-2"></script>
   </head>
   <body>
     <main class="app-shell">
@@ -80,7 +80,9 @@
             <button id="downloadSvg" type="button" disabled>SVG</button>
             <button id="downloadPng" type="button" disabled>PNG</button>
             <button id="downloadWebp" type="button" disabled>WebP</button>
+            <button id="copySvg" type="button" disabled>Copy SVG</button>
           </div>
+          <p id="copyStatus" class="copy-status" role="status" aria-live="polite"></p>
         </aside>
       </section>
     </main>

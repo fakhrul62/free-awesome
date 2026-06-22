@@ -95,7 +95,7 @@ h1 {
 
 .workspace {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+  grid-template-columns: minmax(0, 1fr) minmax(400px, 440px);
   gap: 18px;
   min-height: 0;
 }
@@ -259,7 +259,7 @@ h1 {
 
 .editor-panel {
   display: grid;
-  grid-template-rows: minmax(150px, 1fr) auto auto auto;
+  grid-template-rows: minmax(150px, 1fr) auto auto auto auto;
   gap: 14px;
   padding: 14px;
 }
@@ -354,18 +354,31 @@ h1 {
 
 .download-row {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 8px;
 }
 
 .download-row button {
+  min-width: 0;
+  padding-inline: 6px;
   background: var(--sky);
+  font-size: 13px;
   font-weight: 700;
+  white-space: nowrap;
 }
 
 .download-row button:disabled {
   cursor: not-allowed;
   opacity: 0.5;
+}
+
+.copy-status {
+  min-height: 16px;
+  margin: -8px 0 0;
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
 }
 
 @media (max-width: 820px) {
@@ -386,6 +399,7 @@ h1 {
   }
 
   .editor-panel {
+    min-width: 0;
     grid-template-columns: 128px minmax(0, 1fr);
     grid-template-rows: auto auto auto;
     gap: 10px;
@@ -401,6 +415,18 @@ h1 {
 
   .download-row {
     grid-column: 2;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 5px;
+  }
+
+  .download-row button {
+    min-width: 0;
+    padding-inline: 3px;
+    font-size: 13px;
+  }
+
+  .copy-status {
+    display: none;
   }
 }
 
@@ -423,7 +449,8 @@ h1 {
   }
 
   .editor-panel {
-    grid-template-columns: 104px minmax(0, 1fr);
+    grid-template-columns: 88px minmax(0, 1fr);
+    padding: 10px;
   }
 
   .controls {
@@ -438,6 +465,7 @@ h1 {
 
   .download-row button {
     min-height: 34px;
-    padding: 6px 8px;
+    padding: 4px 2px;
+    font-size: 12px;
   }
 }

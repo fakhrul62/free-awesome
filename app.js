@@ -43,6 +43,8 @@ const els = {
   downloadSvg: document.querySelector("#downloadSvg"),
   downloadPng: document.querySelector("#downloadPng"),
   downloadWebp: document.querySelector("#downloadWebp"),
+  copySvg: document.querySelector("#copySvg"),
+  copyStatus: document.querySelector("#copyStatus"),
 };
 
 const categoryLabels = new Map([["all", "All"]]);
@@ -108,6 +110,7 @@ function bindEvents() {
   els.downloadSvg.addEventListener("click", () => downloadSvg());
   els.downloadPng.addEventListener("click", () => downloadRaster("image/png", "png"));
   els.downloadWebp.addEventListener("click", () => downloadRaster("image/webp", "webp"));
+  els.copySvg.addEventListener("click", copySvgCode);
 }
 
 function renderTabs() {
@@ -186,6 +189,7 @@ async function selectIcon(icon) {
   const requestId = ++state.selectionRequest;
   state.selected = icon;
   state.svgText = "";
+  showCopyStatus("");
   els.selectedName.textContent = prettyName(icon.name);
   els.selectedPath.textContent = `${categoryLabels.get(icon.category)} / ${icon.name}.svg`;
   els.previewBox.innerHTML = "<span>Loading...</span>";
@@ -242,6 +246,7 @@ function setDownloadsEnabled(enabled) {
   els.downloadSvg.disabled = !enabled;
   els.downloadPng.disabled = !enabled;
   els.downloadWebp.disabled = !enabled;
+  els.copySvg.disabled = !enabled;
 }
 
 function editedSvg() {
@@ -269,6 +274,42 @@ function downloadSvg() {
   if (!state.selected) return;
   const blob = new Blob([editedSvg()], { type: "image/svg+xml;charset=utf-8" });
   saveBlob(blob, exportName("svg"));
+}
+
+async function copySvgCode() {
+  const svg = editedSvg();
+  if (!svg) return;
+
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(svg);
+    } else {
+      const textarea = document.createElement("textarea");
+      textarea.value = svg;
+      textarea.setAttribute("readonly", "");
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.append(textarea);
+      textarea.select();
+      const copied = document.execCommand("copy");
+      textarea.remove();
+      if (!copied) throw new Error("Clipboard copy was rejected");
+    }
+    showCopyStatus("SVG code copied!");
+  } catch (error) {
+    showCopyStatus("Could not copy SVG code.");
+    console.error(error);
+  }
+}
+
+function showCopyStatus(message) {
+  els.copyStatus.textContent = message;
+  window.clearTimeout(showCopyStatus.timer);
+  if (message) {
+    showCopyStatus.timer = window.setTimeout(() => {
+      els.copyStatus.textContent = "";
+    }, 2400);
+  }
 }
 
 async function downloadRaster(mimeType, extension) {
