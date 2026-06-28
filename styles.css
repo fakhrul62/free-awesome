@@ -71,11 +71,30 @@ h1 {
   line-height: 1;
 }
 
+.plugin-link {
+  display: inline-flex;
+  align-items: center;
+  margin-left: auto;
+  padding: 8px 10px;
+  border: 2px solid var(--line);
+  background: var(--mint);
+  box-shadow: 3px 3px 0 var(--line);
+  color: var(--ink);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.plugin-link:hover,
+.plugin-link:focus {
+  background: var(--paper-2);
+}
+
 .banner-stats {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 8px;
+  margin-left: 12px;
 }
 
 .banner-stats span,
@@ -435,9 +454,15 @@ h1 {
     display: block;
   }
 
+  .plugin-link {
+    margin-top: 10px;
+    margin-left: 0;
+  }
+
   .banner-stats {
     justify-content: flex-start;
     margin-top: 10px;
+    margin-left: 0;
   }
 
   .workspace {
