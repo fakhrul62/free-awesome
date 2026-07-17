@@ -39,7 +39,10 @@ const els = {
   selectedPath: document.querySelector("#selectedPath"),
   iconColor: document.querySelector("#iconColor"),
   exportSize: document.querySelector("#exportSize"),
+  strokeRange: document.querySelector("#strokeRange"),
+  strokeValue: document.querySelector("#strokeValue"),
   paddingRange: document.querySelector("#paddingRange"),
+  paddingValue: document.querySelector("#paddingValue"),
   downloadSvg: document.querySelector("#downloadSvg"),
   downloadPng: document.querySelector("#downloadPng"),
   downloadWebp: document.querySelector("#downloadWebp"),
@@ -81,6 +84,7 @@ function debounce(fn, wait = 120) {
 function init() {
   els.totalCount.textContent = `${icons.length.toLocaleString()} icons`;
   els.categoryCount.textContent = `${categories.length} styles`;
+  updateControlValues();
   renderTabs();
   bindEvents();
   applyFilters();
@@ -106,6 +110,7 @@ function bindEvents() {
   });
 
   els.iconColor.addEventListener("input", refreshPreview);
+  els.strokeRange.addEventListener("input", refreshPreview);
   els.paddingRange.addEventListener("input", refreshPreview);
   els.downloadSvg.addEventListener("click", () => downloadSvg());
   els.downloadPng.addEventListener("click", () => downloadRaster("image/png", "png"));
@@ -252,20 +257,32 @@ function setDownloadsEnabled(enabled) {
 function editedSvg() {
   if (!state.svgText) return "";
   const color = els.iconColor.value;
+  const strokeWidth = Number(els.strokeRange.value);
   let svg = state.svgText
+    .replace(/^\uFEFF/, "")
     .replace(/<!--[\s\S]*?-->/g, "")
     .replace(/\s(width|height)="[^"]*"/g, "")
     .replace(/\s(fill|stroke)="(?!none)[^"]*"/g, "");
 
-  svg = svg.replace("<svg", `<svg fill="${color}" color="${color}"`);
-  return svg;
+  const match = svg.match(/<svg\b([^>]*)>([\s\S]*?)<\/svg>/i);
+  if (!match) return svg;
+
+  const [, attributes, content] = match;
+  const strokeAttrs =
+    strokeWidth > 0
+      ? `stroke="${color}" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round" paint-order="stroke fill"`
+      : 'stroke="none"';
+
+  return `<svg${attributes} fill="${color}" color="${color}" ${strokeAttrs}>${content}</svg>`;
 }
 
 function refreshPreview() {
   if (!state.svgText) {
     if (state.selected && window.location.protocol === "file:") showFileModePreview(state.selected);
+    updateControlValues();
     return;
   }
+  updateControlValues();
   els.previewBox.style.padding = `${Number(els.paddingRange.value) / 4}%`;
   els.previewBox.innerHTML = editedSvg();
 }
@@ -341,6 +358,15 @@ async function downloadRaster(mimeType, extension) {
   } finally {
     URL.revokeObjectURL(url);
   }
+}
+
+function updateControlValues() {
+  els.strokeValue.textContent = `${formatPx(Number(els.strokeRange.value))}`;
+  els.paddingValue.textContent = `${formatPx(Number(els.paddingRange.value))}`;
+}
+
+function formatPx(value) {
+  return `${Number.isInteger(value) ? value : value.toFixed(1).replace(/\.0$/, "")}px`;
 }
 
 function exportName(extension) {
