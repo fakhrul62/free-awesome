@@ -268,21 +268,47 @@ function editedSvg() {
   if (!match) return svg;
 
   const [, attributes, content] = match;
-  const rootAttrs = `${attributes} fill="${color}" color="${color}" overflow="visible"`;
 
   if (!weight) {
+    const rootAttrs = `${attributes} fill="${color}" color="${color}" overflow="visible"`;
     return `<svg${rootAttrs}>${content}</svg>`;
   }
 
   const viewBox = parseViewBox(attributes);
-  const radius = Math.abs(weight) * 0.35;
+  const radius = Math.abs(weight) * (weight > 0 ? 0.35 : 0.5);
   const pad = Math.max(8, Math.ceil(radius * 4));
   const filterId = "icon-weight";
   const originalDefs = content.match(/<defs[\s\S]*?<\/defs>/gi) || [];
   const body = content.replace(/<defs[\s\S]*?<\/defs>/gi, "");
   const operator = weight > 0 ? "dilate" : "erode";
 
-  return `<svg${rootAttrs}><defs>${originalDefs.join("")}<filter id="${filterId}" x="${formatNumber(viewBox.x - pad)}" y="${formatNumber(viewBox.y - pad)}" width="${formatNumber(viewBox.width + pad * 2)}" height="${formatNumber(viewBox.height + pad * 2)}" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feMorphology in="SourceAlpha" operator="${operator}" radius="${formatNumber(radius)}" result="morph" /><feFlood flood-color="${color}" result="flood" /><feComposite in="flood" in2="morph" operator="in" result="filled" /></filter></defs><g filter="url(#${filterId})">${body}</g></svg>`;
+  let newAttrs = attributes;
+  let filterX = viewBox.x - pad;
+  let filterY = viewBox.y - pad;
+  let filterW = viewBox.width + pad * 2;
+  let filterH = viewBox.height + pad * 2;
+
+  if (weight > 0) {
+    const newX = viewBox.x - pad;
+    const newY = viewBox.y - pad;
+    const newW = viewBox.width + pad * 2;
+    const newH = viewBox.height + pad * 2;
+    const newViewBoxStr = `viewBox="${formatNumber(newX)} ${formatNumber(newY)} ${formatNumber(newW)} ${formatNumber(newH)}"`;
+    
+    if (attributes.match(/\bviewBox="[^"]*"/i)) {
+      newAttrs = attributes.replace(/\bviewBox="[^"]*"/i, newViewBoxStr);
+    } else {
+      newAttrs = attributes + " " + newViewBoxStr;
+    }
+    filterX = newX;
+    filterY = newY;
+    filterW = newW;
+    filterH = newH;
+  }
+
+  const rootAttrs = `${newAttrs} fill="${color}" color="${color}" overflow="visible"`;
+
+  return `<svg${rootAttrs}><defs>${originalDefs.join("")}<filter id="${filterId}" x="${formatNumber(filterX)}" y="${formatNumber(filterY)}" width="${formatNumber(filterW)}" height="${formatNumber(filterH)}" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feMorphology in="SourceAlpha" operator="${operator}" radius="${formatNumber(radius)}" result="morph" /><feFlood flood-color="${color}" result="flood" /><feComposite in="flood" in2="morph" operator="in" result="filled" /></filter></defs><g filter="url(#${filterId})">${body}</g></svg>`;
 }
 
 function refreshPreview() {
