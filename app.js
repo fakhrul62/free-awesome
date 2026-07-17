@@ -257,7 +257,7 @@ function setDownloadsEnabled(enabled) {
 function editedSvg() {
   if (!state.svgText) return "";
   const color = els.iconColor.value;
-  const strokeWidth = Number(els.strokeRange.value);
+  const weight = Number(els.strokeRange.value);
   let svg = state.svgText
     .replace(/^\uFEFF/, "")
     .replace(/<!--[\s\S]*?-->/g, "")
@@ -268,12 +268,21 @@ function editedSvg() {
   if (!match) return svg;
 
   const [, attributes, content] = match;
-  const strokeAttrs =
-    strokeWidth > 0
-      ? `stroke="${color}" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round" paint-order="stroke fill"`
-      : 'stroke="none"';
+  const rootAttrs = `${attributes} fill="${color}" color="${color}" overflow="visible"`;
 
-  return `<svg${attributes} fill="${color}" color="${color}" ${strokeAttrs}>${content}</svg>`;
+  if (!weight) {
+    return `<svg${rootAttrs}>${content}</svg>`;
+  }
+
+  const viewBox = parseViewBox(attributes);
+  const radius = Math.abs(weight) * 0.35;
+  const pad = Math.max(8, Math.ceil(radius * 4));
+  const filterId = "icon-weight";
+  const originalDefs = content.match(/<defs[\s\S]*?<\/defs>/gi) || [];
+  const body = content.replace(/<defs[\s\S]*?<\/defs>/gi, "");
+  const operator = weight > 0 ? "dilate" : "erode";
+
+  return `<svg${rootAttrs}><defs>${originalDefs.join("")}<filter id="${filterId}" x="${formatNumber(viewBox.x - pad)}" y="${formatNumber(viewBox.y - pad)}" width="${formatNumber(viewBox.width + pad * 2)}" height="${formatNumber(viewBox.height + pad * 2)}" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feMorphology in="SourceAlpha" operator="${operator}" radius="${formatNumber(radius)}" result="morph" /><feFlood flood-color="${color}" result="flood" /><feComposite in="flood" in2="morph" operator="in" result="filled" /></filter></defs><g filter="url(#${filterId})">${body}</g></svg>`;
 }
 
 function refreshPreview() {
@@ -361,12 +370,42 @@ async function downloadRaster(mimeType, extension) {
 }
 
 function updateControlValues() {
-  els.strokeValue.textContent = `${formatPx(Number(els.strokeRange.value))}`;
+  els.strokeValue.textContent = formatWeight(Number(els.strokeRange.value));
   els.paddingValue.textContent = `${formatPx(Number(els.paddingRange.value))}`;
+}
+
+function formatWeight(value) {
+  if (value === 0) return "0";
+  return `${value > 0 ? "+" : ""}${value}`;
 }
 
 function formatPx(value) {
   return `${Number.isInteger(value) ? value : value.toFixed(1).replace(/\.0$/, "")}px`;
+}
+
+function formatNumber(value) {
+  return `${Number.isInteger(value) ? value : Number(value.toFixed(2))}`;
+}
+
+function parseViewBox(attributes) {
+  const match = attributes.match(/\bviewBox="([^"]+)"/i);
+  if (!match) return { x: 0, y: 0, width: 512, height: 512 };
+
+  const parts = match[1]
+    .trim()
+    .split(/[\s,]+/)
+    .map((part) => Number(part));
+
+  if (parts.length !== 4 || parts.some((part) => Number.isNaN(part))) {
+    return { x: 0, y: 0, width: 512, height: 512 };
+  }
+
+  return {
+    x: parts[0],
+    y: parts[1],
+    width: parts[2],
+    height: parts[3],
+  };
 }
 
 function exportName(extension) {
