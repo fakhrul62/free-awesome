@@ -1,4 +1,4 @@
-# Free Awesome Icon Shelf
+# Apiro Free Icon Picker
 
 A fast, browser-based icon picker for browsing, recoloring, previewing, and exporting more than 30,000 icons.
 
