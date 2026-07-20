@@ -278,8 +278,8 @@ h1 {
 
 .editor-panel {
   display: grid;
-  grid-template-rows: minmax(150px, 1fr) auto auto auto auto;
-  gap: 14px;
+  grid-template-rows: minmax(80px, 1fr) auto auto auto;
+  gap: 12px;
   padding: 14px;
   overflow: hidden;
 }
@@ -356,19 +356,22 @@ h1 {
 
 .controls {
   display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 10px;
 }
 
 .controls label {
   display: grid;
-  grid-template-columns: 1fr minmax(96px, 132px);
+  grid-template-columns: 1fr minmax(80px, 1fr);
   align-items: center;
   gap: 10px;
   font-size: 13px;
   font-weight: 700;
+  min-width: 0;
 }
 
 .controls label.range-control {
+  grid-column: 1 / -1;
   grid-template-columns: 1fr;
   gap: 8px;
 }
@@ -407,6 +410,7 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  min-height: fit-content;
 }
 
 .download-row button {
@@ -453,7 +457,7 @@ h1 {
   .editor-panel {
     min-width: 0;
     grid-template-columns: 128px minmax(0, 1fr);
-    grid-template-rows: 1fr auto auto auto;
+    grid-template-rows: minmax(0, 1fr) auto auto auto;
     gap: 10px;
   }
 
@@ -463,6 +467,11 @@ h1 {
 
   .preview-box {
     width: 98px;
+  }
+
+  .controls {
+    grid-template-columns: 1fr 1fr;
+    gap: 7px;
   }
 
   .download-row {
@@ -511,6 +520,7 @@ h1 {
   }
 
   .controls {
+    grid-template-columns: 1fr;
     gap: 7px;
   }
 
@@ -521,6 +531,7 @@ h1 {
   }
 
   .controls label.range-control {
+    grid-column: 1;
     grid-template-columns: 1fr;
   }
 
