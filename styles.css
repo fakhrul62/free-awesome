@@ -1,4 +1,7 @@
 :root {
+  --accent: #026DEA;
+  --accent-hover: #0156bb;
+  --accent-subtle: rgba(2, 109, 234, 0.15);
   --ink: #2d232e;
   --paper: #f6eddc;
   --paper-2: #fff8e8;
@@ -59,9 +62,10 @@ select {
 
 .eyebrow {
   margin: 0 0 4px;
+  color: var(--accent);
   font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
 }
 
@@ -77,16 +81,18 @@ h1 {
   margin-left: auto;
   padding: 8px 10px;
   border: 2px solid var(--line);
-  background: var(--mint);
+  background: var(--accent);
   box-shadow: 3px 3px 0 var(--line);
-  color: var(--ink);
+  color: #ffffff;
   font-weight: 700;
   text-decoration: none;
+  transition: background 120ms ease, color 120ms ease;
 }
 
 .plugin-link:hover,
 .plugin-link:focus {
-  background: var(--paper-2);
+  background: var(--accent-hover);
+  color: #ffffff;
 }
 
 .banner-stats {
@@ -159,7 +165,8 @@ h1 {
 .search-box input:focus,
 .controls input:focus,
 .controls select:focus {
-  box-shadow: 0 0 0 3px var(--mint);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-subtle);
 }
 
 .tabs {
@@ -185,7 +192,8 @@ h1 {
 }
 
 .tabs button[aria-selected="true"] {
-  background: var(--mint);
+  background: var(--accent);
+  color: #ffffff;
   box-shadow: 3px 3px 0 var(--line);
 }
 
@@ -231,14 +239,16 @@ h1 {
   contain-intrinsic-size: 88px;
 }
 
-.icon-card:hover,
-.icon-card.is-active {
+.icon-card:hover {
   background: #f9dda0;
   transform: translate(-1px, -1px);
 }
 
 .icon-card.is-active {
-  box-shadow: 3px 3px 0 var(--line);
+  background: #fff8e8;
+  border-color: var(--accent);
+  box-shadow: 3px 3px 0 var(--accent);
+  transform: translate(-1px, -1px);
 }
 
 .icon-card img {
@@ -403,7 +413,7 @@ h1 {
 .controls input[type="range"] {
   min-height: 0;
   padding: 0;
-  accent-color: var(--gold);
+  accent-color: var(--accent);
 }
 
 .download-row {
@@ -417,10 +427,26 @@ h1 {
   flex: 1 1 0;
   min-width: 0;
   padding-inline: 6px;
-  background: var(--sky);
+  background: var(--paper-2);
+  color: var(--ink);
   font-size: 13px;
   font-weight: 700;
   white-space: nowrap;
+  transition: background 120ms ease, border-color 120ms ease, color 120ms ease;
+}
+
+.download-row button:hover:not(:disabled) {
+  background: var(--accent-subtle);
+  border-color: var(--accent);
+}
+
+.download-row button#downloadSvg {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+.download-row button#downloadSvg:hover:not(:disabled) {
+  background: var(--accent-hover);
 }
 
 .download-row button:disabled {
