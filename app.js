@@ -261,20 +261,23 @@ function editedSvg() {
   let svg = state.svgText
     .replace(/^\uFEFF/, "")
     .replace(/<!--[\s\S]*?-->/g, "")
-    .replace(/\s(width|height)="[^"]*"/g, "")
-    .replace(/\s(fill|stroke)="(?!none)[^"]*"/g, "");
+    .replace(/\s(width|height)=["'][^"']*["']/g, "")
+    .replace(/\s(fill|stroke)=["'](?!none["'])[^"']*["']/g, "");
 
   const match = svg.match(/<svg\b([^>]*)>([\s\S]*?)<\/svg>/i);
   if (!match) return svg;
 
   const [, attributes, content] = match;
+  const isStroke = state.svgText.includes("stroke=") && !state.svgText.includes('stroke="none"') && !state.svgText.includes("stroke='none'");
+  const cleanAttrs = attributes.replace(/\s(fill|stroke)=["'][^"']*["']/g, "");
 
   if (!weight) {
-    const rootAttrs = `${attributes} fill="${color}" color="${color}" overflow="visible"`;
+    const fillStrokeAttrs = isStroke ? `fill="none" stroke="${color}"` : `fill="${color}"`;
+    const rootAttrs = `${cleanAttrs} ${fillStrokeAttrs} color="${color}" overflow="visible"`;
     return `<svg${rootAttrs}>${content}</svg>`;
   }
 
-  const viewBox = parseViewBox(attributes);
+  const viewBox = parseViewBox(cleanAttrs);
   const radius = Math.abs(weight) * (weight > 0 ? 0.35 : 0.5);
   const pad = Math.max(8, Math.ceil(radius * 4));
   const filterId = "icon-weight";
@@ -282,7 +285,7 @@ function editedSvg() {
   const body = content.replace(/<defs[\s\S]*?<\/defs>/gi, "");
   const operator = weight > 0 ? "dilate" : "erode";
 
-  let newAttrs = attributes;
+  let newAttrs = cleanAttrs;
   let filterX = viewBox.x - pad;
   let filterY = viewBox.y - pad;
   let filterW = viewBox.width + pad * 2;
@@ -295,10 +298,10 @@ function editedSvg() {
     const newH = viewBox.height + pad * 2;
     const newViewBoxStr = `viewBox="${formatNumber(newX)} ${formatNumber(newY)} ${formatNumber(newW)} ${formatNumber(newH)}"`;
     
-    if (attributes.match(/\bviewBox="[^"]*"/i)) {
-      newAttrs = attributes.replace(/\bviewBox="[^"]*"/i, newViewBoxStr);
+    if (cleanAttrs.match(/\bviewBox=["'][^"']*["']/i)) {
+      newAttrs = cleanAttrs.replace(/\bviewBox=["'][^"']*["']/i, newViewBoxStr);
     } else {
-      newAttrs = attributes + " " + newViewBoxStr;
+      newAttrs = cleanAttrs + " " + newViewBoxStr;
     }
     filterX = newX;
     filterY = newY;
@@ -306,7 +309,8 @@ function editedSvg() {
     filterH = newH;
   }
 
-  const rootAttrs = `${newAttrs} fill="${color}" color="${color}" overflow="visible"`;
+  const fillStrokeAttrs = isStroke ? `fill="none" stroke="${color}"` : `fill="${color}"`;
+  const rootAttrs = `${newAttrs} ${fillStrokeAttrs} color="${color}" overflow="visible"`;
 
   return `<svg${rootAttrs}><defs>${originalDefs.join("")}<filter id="${filterId}" x="${formatNumber(filterX)}" y="${formatNumber(filterY)}" width="${formatNumber(filterW)}" height="${formatNumber(filterH)}" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feMorphology in="SourceAlpha" operator="${operator}" radius="${formatNumber(radius)}" result="morph" /><feFlood flood-color="${color}" result="flood" /><feComposite in="flood" in2="morph" operator="in" result="filled" /></filter></defs><g filter="url(#${filterId})">${body}</g></svg>`;
 }
