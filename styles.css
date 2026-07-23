@@ -170,6 +170,51 @@ h1 {
   scrollbar-width: thin;
 }
 
+.tabs-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.tabs.style-tabs {
+  border-top: 2px dashed var(--line);
+  padding-top: 12px;
+  margin-top: 4px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  animation: styleTabsFadeIn 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes styleTabsFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tabs.style-tabs button {
+  min-height: 34px;
+  padding: 6px 12px;
+  font-size: 13px;
+  box-shadow: 2px 2px 0 var(--line);
+}
+
+.tabs.style-tabs button[aria-selected="true"] {
+  background: var(--ink);
+  color: #ffffff;
+  box-shadow: 2px 2px 0 var(--accent);
+}
+
+.tabs.style-tabs button:hover:not([aria-selected="true"]) {
+  background: var(--accent-subtle);
+}
+
 .tabs button,
 .download-row button,
 .load-more {

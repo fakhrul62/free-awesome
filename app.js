@@ -13,8 +13,78 @@ const categoryIcons = new Map(
 const icons = categories.flatMap((category) => categoryIcons.get(category));
 const batchSize = 120;
 
+const FAMILIES = [
+  {
+    id: "all",
+    name: "All Libraries",
+    categories: []
+  },
+  {
+    id: "fa-classic",
+    name: "Font Awesome Classic",
+    categories: ["solid", "regular", "light", "thin", "duotone", "brands"],
+    styleLabels: {
+      "all": "All Styles",
+      "solid": "Solid",
+      "regular": "Regular",
+      "light": "Light",
+      "thin": "Thin",
+      "duotone": "Duotone",
+      "brands": "Brands"
+    }
+  },
+  {
+    id: "fa-sharp",
+    name: "Font Awesome Sharp",
+    categories: ["sharp-solid", "sharp-regular", "sharp-light", "sharp-thin"],
+    styleLabels: {
+      "all": "All Styles",
+      "sharp-solid": "Solid",
+      "sharp-regular": "Regular",
+      "sharp-light": "Light",
+      "sharp-thin": "Thin"
+    }
+  },
+  {
+    id: "material",
+    name: "Material Design",
+    categories: ["material", "material-design-icons"],
+    styleLabels: {
+      "all": "All Styles",
+      "material": "Material Icons",
+      "material-design-icons": "Design Icons"
+    }
+  },
+  {
+    id: "lucide",
+    name: "Lucide",
+    categories: ["lucide"]
+  },
+  {
+    id: "feather",
+    name: "Feather",
+    categories: ["feather"]
+  },
+  {
+    id: "ionicons",
+    name: "Ionicons",
+    categories: ["ionicons"]
+  },
+  {
+    id: "octicons",
+    name: "Octicons",
+    categories: ["octicons"]
+  },
+  {
+    id: "iconoir",
+    name: "Iconoir",
+    categories: ["iconoir"]
+  }
+];
+
 const state = {
-  category: "all",
+  family: "all",
+  style: "all",
   query: "",
   visible: batchSize,
   filtered: icons,
@@ -27,7 +97,8 @@ const els = {
   totalCount: document.querySelector("#totalCount"),
   categoryCount: document.querySelector("#categoryCount"),
   searchInput: document.querySelector("#searchInput"),
-  tabs: document.querySelector("#tabs"),
+  familyTabs: document.querySelector("#familyTabs"),
+  styleTabs: document.querySelector("#styleTabs"),
   resultCount: document.querySelector("#resultCount"),
   activeCategory: document.querySelector("#activeCategory"),
   iconGrid: document.querySelector("#iconGrid"),
@@ -83,7 +154,7 @@ function debounce(fn, wait = 120) {
 
 function init() {
   els.totalCount.textContent = `${icons.length.toLocaleString()} icons`;
-  els.categoryCount.textContent = `${categories.length} styles`;
+  els.categoryCount.textContent = `${FAMILIES.length - 1} libraries`;
   updateControlValues();
   renderTabs();
   bindEvents();
@@ -119,18 +190,51 @@ function bindEvents() {
 }
 
 function renderTabs() {
-  const tabs = ["all", ...categories];
-  els.tabs.replaceChildren(
-    ...tabs.map((category) => {
+  els.familyTabs.replaceChildren(
+    ...FAMILIES.map((family) => {
       const button = document.createElement("button");
       button.type = "button";
       button.role = "tab";
-      button.textContent = categoryLabels.get(category);
-      button.setAttribute("aria-selected", String(category === state.category));
+      button.textContent = family.name;
+      button.setAttribute("aria-selected", String(family.id === state.family));
       button.addEventListener("click", () => {
-        state.category = category;
+        state.family = family.id;
+        state.style = "all";
         state.visible = batchSize;
-        [...els.tabs.children].forEach((tab) => {
+        [...els.familyTabs.children].forEach((tab) => {
+          tab.setAttribute("aria-selected", String(tab === button));
+        });
+        renderStyleTabs(family);
+        applyFilters();
+      });
+      return button;
+    }),
+  );
+
+  const activeFamily = FAMILIES.find((f) => f.id === state.family);
+  renderStyleTabs(activeFamily);
+}
+
+function renderStyleTabs(family) {
+  if (!family || !family.styleLabels) {
+    els.styleTabs.style.display = "none";
+    els.styleTabs.innerHTML = "";
+    return;
+  }
+
+  els.styleTabs.style.display = "flex";
+  const styles = ["all", ...family.categories];
+  els.styleTabs.replaceChildren(
+    ...styles.map((style) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.role = "tab";
+      button.textContent = family.styleLabels[style] || toTitle(style);
+      button.setAttribute("aria-selected", String(style === state.style));
+      button.addEventListener("click", () => {
+        state.style = style;
+        state.visible = batchSize;
+        [...els.styleTabs.children].forEach((tab) => {
           tab.setAttribute("aria-selected", String(tab === button));
         });
         applyFilters();
@@ -140,13 +244,39 @@ function renderTabs() {
   );
 }
 
+function getActiveLabel() {
+  if (state.family === "all") {
+    return "All libraries";
+  }
+  const family = FAMILIES.find((f) => f.id === state.family);
+  if (!family) return "All libraries";
+  if (!family.styleLabels || state.style === "all") {
+    return family.name;
+  }
+  const styleLabel = family.styleLabels[state.style] || toTitle(state.style);
+  return `${family.name} / ${styleLabel}`;
+}
+
 function applyFilters() {
   const query = state.query;
-  const candidates = state.category === "all" ? icons : categoryIcons.get(state.category) || [];
+  let candidates = [];
+
+  if (state.family === "all") {
+    candidates = icons;
+  } else {
+    const family = FAMILIES.find((f) => f.id === state.family);
+    if (family) {
+      if (state.style === "all") {
+        candidates = family.categories.flatMap((cat) => categoryIcons.get(cat) || []);
+      } else {
+        candidates = categoryIcons.get(state.style) || [];
+      }
+    } else {
+      candidates = icons;
+    }
+  }
 
   state.filtered = query ? candidates.filter((icon) => {
-    const categoryMatch = state.category === "all" || icon.category === state.category;
-    if (!categoryMatch) return false;
     return `${icon.name} ${icon.category}`.includes(query.replaceAll(" ", "-")) || normalize(`${icon.name} ${icon.category}`).includes(query);
   }) : candidates;
 
@@ -185,7 +315,7 @@ function renderGrid() {
 
   els.iconGrid.replaceChildren(fragment);
   els.resultCount.textContent = `${state.filtered.length.toLocaleString()} result${state.filtered.length === 1 ? "" : "s"}`;
-  els.activeCategory.textContent = state.category === "all" ? "All categories" : categoryLabels.get(state.category);
+  els.activeCategory.textContent = getActiveLabel();
   els.loadMore.hidden = state.visible >= state.filtered.length;
   els.emptyState.hidden = state.filtered.length > 0;
 }
