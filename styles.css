@@ -347,7 +347,9 @@ h1 {
   min-height: 0;
   overflow: hidden;
   border: 2px dashed var(--line);
-  background: var(--paper-2);
+  background-color: var(--paper-2);
+  background-image: repeating-conic-gradient(rgba(15, 23, 42, 0.06) 0% 25%, transparent 25% 50%);
+  background-size: 20px 20px;
   place-items: center;
 }
 
