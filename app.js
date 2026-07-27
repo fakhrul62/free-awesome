@@ -388,16 +388,22 @@ function editedSvg() {
   if (!state.svgText) return "";
   const color = els.iconColor.value;
   const weight = Number(els.strokeRange.value);
+
+  // Clean up BOM and comments from the whole SVG string
   let svg = state.svgText
     .replace(/^\uFEFF/, "")
-    .replace(/<!--[\s\S]*?-->/g, "")
-    .replace(/\s(width|height)=["'][^"']*["']/g, "")
-    .replace(/\s(fill|stroke)=["'](?!none["'])[^"']*["']/g, "");
+    .replace(/<!--[\s\S]*?-->/g, "");
 
   const match = svg.match(/<svg\b([^>]*)>([\s\S]*?)<\/svg>/i);
   if (!match) return svg;
 
-  const [, attributes, content] = match;
+  let [, attributes, content] = match;
+
+  // Only remove width/height and non-none fill/stroke from the root svg attributes
+  attributes = attributes
+    .replace(/\s(width|height)=["'][^"']*["']/g, "")
+    .replace(/\s(fill|stroke)=["'](?!none["'])[^"']*["']/g, "");
+
   const isStroke = state.svgText.includes("stroke=") && !state.svgText.includes('stroke="none"') && !state.svgText.includes("stroke='none'");
   const cleanAttrs = attributes.replace(/\s(fill|stroke)=["'][^"']*["']/g, "");
 
