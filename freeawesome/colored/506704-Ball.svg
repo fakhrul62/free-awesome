@@ -1,0 +1,21 @@
+<svg width="800" height="800" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid"><defs><style>.cls-3 {
+fill: #0bdefe;
+}
+.cls-4 {
+fill: #2ed8ec;
+}
+.cls-5 {
+fill: #2ee1ec;
+}
+.cls-6 {
+fill: #2bebf1;
+}
+.cls-7 {
+fill: #50eff5;
+}
+.cls-8 {
+fill: #4ef4fa;
+}
+.cls-9 {
+fill: #82f4f8;
+}</style></defs><g id="ball"><path d="M128 1c70.692.0 128 56.308 128 127S198.692 256 128 256C57.308 256 0 198.692.0 128 0 57.308 57.308 1 128 1z" id="path-1" class="cls-3" fill-rule="evenodd"/><ellipse id="ellipse-1" class="cls-4" cx="128" cy="132" rx="128" ry="108"/><ellipse id="ellipse-2" class="cls-5" cx="128" cy="114" rx="126" ry="97"/><path d="M247 92c0 44.183-53.278 80-119 80C62.278 172 9 136.183 9 92 9 86.079 9.985 80.131 11.801 74.266 21.95 52.355 38.111 33.801 58.17 20.717 77.786 9.24 101.904 2 128 2s50.213 7.24 69.829 18.717c20.06 13.084 36.221 31.638 46.37 53.549C246.014 80.131 247 86.079 247 92z" id="path-2" class="cls-6" fill-rule="evenodd"/><path d="M128 129C72.771 129 28 100.346 28 65c0-9.403 3.194-18.536 8.885-26.889C60.095 14.586 92.342.0 128 0c35.658.0 67.905 14.586 91.115 38.111C224.806 46.464 228 55.597 228 65c0 35.346-44.772 64-1e2 64z" id="path-3" class="cls-7" fill-rule="evenodd"/><ellipse id="ellipse-3" class="cls-8" cx="128" cy="48" rx="74" ry="47"/><ellipse id="ellipse-4" class="cls-9" cx="128" cy="29" rx="46" ry="29"/></g></svg>

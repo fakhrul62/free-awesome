@@ -1,0 +1,15 @@
+<svg width="800" height="800" viewBox="0 0 64 64" data-name="Layer 1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1 {
+fill: #f5dd90;
+}
+.cls-2 {
+fill: #ffbc0a;
+}
+.cls-3 {
+fill: #a3cef1;
+}
+.cls-4 {
+fill: #6096ba;
+}
+.cls-5 {
+fill: #274c77;
+}</style></defs><rect class="cls-4" height="11" width="2" x="31" y="22"/><path class="cls-5" d="M32 59h-3l-2-2H10V27h4v24s12.15-3 18 8z"/><path class="cls-5" d="M50 51V27h4v30H37l-2 2h-3c5.85-11 18-8 18-8z"/><path class="cls-4" d="M32 59c-5.85-11-18-8-18-8V24l6-2v25c6.63.0 12 5.37 12 12z"/><path class="cls-4" d="M44 22l6 2v27s-12.15-3-18 8c0-6.63 5.37-12 12-12V22z"/><path class="cls-3" d="M32 33c0-6.63-5.37-12-12-12v26c6.63.0 12 5.37 12 12 0-6.63 5.37-12 12-12V21c-6.63.0-12 5.37-12 12z"/><circle class="cls-1" cx="32" cy="14" r="9"/><rect class="cls-4" height="2" transform="translate(-.53 26.73) rotate(-45)" width="10" x="27" y="13"/><rect class="cls-2" height="2" rx="1" ry="1" transform="translate(1.77 25.19) rotate(-45)" width="2" x="30.29" y="9.46"/><rect class="cls-2" height="2" rx="1" ry="1" transform="translate(-2.82 28.26) rotate(-45)" width="2" x="31.71" y="16.54"/></svg>

@@ -1,0 +1,6 @@
+<svg width="800" height="800" viewBox="0 0 32 32" id="icon" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1 {
+fill: #1c1c1c;
+}
+.cls-2 {
+fill: none;
+}</style></defs><circle id="circle-bottom" class="cls-1" cx="9" cy="20" r="2"/><path id="circle-center" class="cls-1" d="M16 20a4 4 0 114-4 4.0118 4.0118.0 01-4 4zm0-6a2 2 0 102 2 2.0059 2.0059.0 00-2-2z"/><circle id="circle-top" class="cls-1" cx="23" cy="12" r="2"/><path d="M23 24.7588l-7 4.0835L5 22.4258V9.5742L16 3.1577 27 9.5742V22h2V9a1 1 0 00-.4961-.8638l-12-7a1 1 0 00-1.0078.0l-12 7A1 1 0 003 9V23a1 1 0 00.4961.8638l12 7a1 1 0 001.0078.0L24 26.4907z"/><rect id="_Transparent_Rectangle_" data-name="&lt;Transparent Rectangle>" class="cls-2" width="32" height="32"/></svg>

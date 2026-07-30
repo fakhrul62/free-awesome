@@ -1,0 +1,12 @@
+<svg width="800" height="800" viewBox="-33 0 256 256" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid"><defs><style>.cls-3 {
+fill: url(#linear-gradient-1);
+}
+.cls-4 {
+fill: #fce202;
+}
+.cls-5 {
+fill: #ff5134;
+}
+.cls-6 {
+fill: #fc0231;
+}</style><linearGradient id="linear-gradient-1" gradientUnits="userSpaceOnUse" x1="72" y1="256" x2="72" y2="83"><stop offset="0" stop-color="#0bdfff"/><stop offset="1" stop-color="#00bcf2"/></linearGradient></defs><g id="energy_bottle"><path d="M134 240C134 248.836 126.836 256 118 256H26C17.163 256 10 248.836 10 240L0 99c0-8.837 7.163-16 16-16H128C136.836 83 144 90.163 144 99L134 240z" id="path-1" class="cls-3" fill-rule="evenodd"/><path d="M82.145 203.674C80.944 206.415 78.527 209 75.2 209 71.223 209 68 205.776 68 201.8V177s-16.8.0-16.8.0C47.223 177 44 174.8 44 169.8s17.855-43.474 17.855-43.474C63.056 123.584 65.473 121 68.8 121 72.776 121 76 124.223 76 128.2V153s16.8.0 16.8.0C96.776 153 1e2 155.343 1e2 160.2s-17.855 43.474-17.855 43.474z" id="path-2" class="cls-4" fill-rule="evenodd"/><rect id="rect-1" class="cls-5" x="23" y="33" width="98" height="33"/><path d="M157 83S18 83 18 83C13.582 83 10 79.418 10 75V74C10 69.582 13.582 66 18 66H126C130.418 66 134 69.582 134 74v1s23 0 23 0c13.807.0 25-11.193 25-25s-11.193-25-25-25H23s0-9 0-9c0-4.418 3.582-8 8-8H52s0-1 0-1c0-3.866 3.134-7 7-7H85c3.866.0 7 3.134 7 7V8s21 0 21 0C117.418 8 121 11.582 121 16v1s36 0 36 0c18.225.0 33 14.774 33 33 0 18.225-14.775 33-33 33z" id="path-3" class="cls-6" fill-rule="evenodd"/></g></svg>

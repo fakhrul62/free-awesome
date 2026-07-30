@@ -1,0 +1,18 @@
+<svg width="800" height="800" viewBox="0 0 64 64" data-name="Layer 1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1 {
+fill: #f5dd90;
+}
+.cls-2 {
+fill: #f76c5e;
+}
+.cls-3 {
+fill: #ffbc0a;
+}
+.cls-4 {
+fill: #a3cef1;
+}
+.cls-5 {
+fill: #6096ba;
+}
+.cls-6 {
+fill: #274c77;
+}</style></defs><polyline class="cls-5" points="22 33 18 34 18 52 22 52 32 52 42 52 46 52 46 34 42 33"/><path class="cls-6" d="M12 30l2-6 2 6v22c0 1.1-.9 2-2 2h0c-1.1.0-2-.9-2-2V30z"/><path class="cls-2" d="M12 50h4v2c0 1.1-.9 2-2 2-.55.0-1.05-.22-1.41-.59-.37-.36-.59-.86-.59-1.41v-2z"/><polygon class="cls-2" points="12 30 16 30 14 24 12 30"/><path class="cls-6" d="M48 30l2-6 2 6v22c0 1.1-.9 2-2 2h0c-1.1.0-2-.9-2-2V30z"/><path class="cls-2" d="M48 50h4v2c0 1.1-.9 2-2 2-.55.0-1.05-.22-1.41-.59-.37-.36-.59-.86-.59-1.41v-2z"/><polygon class="cls-2" points="48 30 52 30 50 24 48 30"/><path class="cls-6" d="M36 39l6.69-15.29C41.53 25.03 37.18 26 32 26s-9.53-.97-10.69-2.29h0L28 39"/><ellipse class="cls-1" cx="32" cy="23" rx="11" ry="3"/><rect class="cls-5" height="4" rx="1" ry="1" width="10" x="27" y="39"/><rect class="cls-3" height="6" width="2" x="31" y="10"/><rect class="cls-3" height="6" transform="translate(-3.15 22.74) rotate(-45)" width="2" x="24.88" y="12.17"/><rect class="cls-3" height="2" transform="translate(.44 31.4) rotate(-45)" width="6" x="35.12" y="14.17"/><path class="cls-4" d="M36 39l3.82-8.74L42 32v20l-2.5-2c-.73-.58-1.62-.88-2.5-.88s-1.77.3-2.5.88-1.62.88-2.5.88-1.77-.3-2.5-.88c-1.46-1.17-3.54-1.17-5 0L22 52V32l2.18-1.74L28 39c-.55.0-1 .45-1 1v2c0 .55.45 1 1 1h8c.55.0 1-.45 1-1v-2c0-.55-.45-1-1-1z"/><rect class="cls-5" height="2" width="2" x="49" y="20"/><rect class="cls-5" height="2" width="2" x="49" y="16"/><rect class="cls-5" height="2" width="2" x="49" y="12"/><rect class="cls-5" height="2" width="2" x="13" y="20"/><rect class="cls-5" height="2" width="2" x="13" y="16"/><rect class="cls-5" height="2" width="2" x="13" y="12"/></svg>

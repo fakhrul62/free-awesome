@@ -1,0 +1,6 @@
+<svg width="800" height="800" viewBox="0 0 32 32" id="icon" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1 {
+fill: #272425;
+}
+.cls-2 {
+fill: none;
+}</style></defs><path class="cls-1" d="M19.386 15.2105l9-7A1 1 0 0130 9V23a1 1 0 01-1.614.79l-9-7a1 1 0 010-1.5791z"/><rect class="cls-1" x="15" y="2" width="2" height="28" transform="translate(32 32) rotate(-180)"/><path class="cls-1" d="M13 16a1.001 1.001.0 01-.386.79l-9 7A1 1 0 012 23V9a1 1 0 011.614-.79l9 7A1.001 1.001.0 0113 16zM4 20.9556 10.3711 16 4 11.0444z"/><rect id="_Transparent_Rectangle_" data-name="&lt;Transparent Rectangle>" class="cls-2" width="32" height="32"/></svg>

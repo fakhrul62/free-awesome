@@ -16,69 +16,38 @@ const batchSize = 120;
 const FAMILIES = [
   {
     id: "all",
-    name: "All Libraries",
+    name: "All Styles",
     categories: []
   },
   {
-    id: "fa-classic",
-    name: "Font Awesome Classic",
-    categories: ["solid", "regular", "light", "thin", "duotone", "brands"],
-    styleLabels: {
-      "all": "All Styles",
-      "solid": "Solid",
-      "regular": "Regular",
-      "light": "Light",
-      "thin": "Thin",
-      "duotone": "Duotone",
-      "brands": "Brands"
-    }
+    id: "line",
+    name: "Line Icons",
+    categories: ["line"]
   },
   {
-    id: "fa-sharp",
-    name: "Font Awesome Sharp",
-    categories: ["sharp-solid", "sharp-regular", "sharp-light", "sharp-thin"],
-    styleLabels: {
-      "all": "All Styles",
-      "sharp-solid": "Solid",
-      "sharp-regular": "Regular",
-      "sharp-light": "Light",
-      "sharp-thin": "Thin"
-    }
+    id: "solid",
+    name: "Solid Icons",
+    categories: ["solid"]
   },
   {
-    id: "material",
-    name: "Material Design",
-    categories: ["material", "material-design-icons"],
-    styleLabels: {
-      "all": "All Styles",
-      "material": "Material Icons",
-      "material-design-icons": "Design Icons"
-    }
+    id: "duotone",
+    name: "Duotone Icons",
+    categories: ["duotone"]
   },
   {
-    id: "lucide",
-    name: "Lucide",
-    categories: ["lucide"]
+    id: "bold",
+    name: "Bold Icons",
+    categories: ["bold"]
   },
   {
-    id: "feather",
-    name: "Feather",
-    categories: ["feather"]
+    id: "colored",
+    name: "Colored Icons",
+    categories: ["colored"]
   },
   {
-    id: "ionicons",
-    name: "Ionicons",
-    categories: ["ionicons"]
-  },
-  {
-    id: "octicons",
-    name: "Octicons",
-    categories: ["octicons"]
-  },
-  {
-    id: "iconoir",
-    name: "Iconoir",
-    categories: ["iconoir"]
+    id: "misc",
+    name: "Misc Icons",
+    categories: ["misc"]
   }
 ];
 

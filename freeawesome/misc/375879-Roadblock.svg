@@ -1,0 +1,6 @@
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><style>.st0{display:none;fill:#2B3544;}
+.st1{fill:#E0E0D1;}
+.st2{opacity:0.2;fill:#231F20;}
+.st3{fill:#E0995E;}
+.st4{fill:#4F5D73;}
+.st5{fill:#F5CF87;}</style><rect x="-55" y="-1429" class="st0" width="608" height="1984"/><circle class="st1" cx="32" cy="32" r="32"/><path class="st2" d="M20 48c0 1.1-.9 2-2 2-1.1.0-2-.9-2-2v-8c0-1.1.9-2 2-2 1.1.0 2 .9 2 2v8z"/><path class="st2" d="M48 48c0 1.1-.9 2-2 2-1.1.0-2-.9-2-2v-8c0-1.1.9-2 2-2 1.1.0 2 .9 2 2v8z"/><path class="st3" d="M20 46c0 1.1-.9 2-2 2-1.1.0-2-.9-2-2v-8c0-1.1.9-2 2-2 1.1.0 2 .9 2 2v8z"/><path class="st3" d="M48 46c0 1.1-.9 2-2 2-1.1.0-2-.9-2-2v-8c0-1.1.9-2 2-2 1.1.0 2 .9 2 2v8z"/><path class="st2" d="M55.2 23.6c-.7-1-1.9-1.6-3.2-1.6h-8H30 18h-6c-2.2.0-4 1.8-4 4v12c0 .9.3 1.7.8 2.4.7 1 1.9 1.6 3.2 1.6h8 14 12 6c2.2.0 4-1.8 4-4V26C56 25.1 55.7 24.3 55.2 23.6z"/><path class="st4" d="M12 20c-2.2.0-4 1.8-4 4v12c0 .9.3 1.7.8 2.4L18 20H12z"/><polygon class="st4" points="30,20 20,40 34,40 44,20"/><path class="st5" d="M18 20 8.8 38.4c.7 1 1.9 1.6 3.2 1.6h8l10-20H18z"/><path class="st4" d="M46 40h6c2.2.0 4-1.8 4-4V24c0-.9-.3-1.7-.8-2.4L46 40z"/><path class="st5" d="M52 20h-8L34 40h12l9.2-18.4C54.5 20.6 53.3 20 52 20z"/></svg>

@@ -1,0 +1,15 @@
+<svg width="800" height="800" viewBox="0 0 48 48" data-name="Layer 1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1, .cls-2 {
+fill: none;
+stroke: #353535;
+stroke-linecap: round;
+stroke-width: 2px;
+}
+.cls-1 {
+stroke-linejoin: round;
+}
+.cls-2 {
+stroke-miterlimit: 10;
+}
+.cls-3 {
+fill: #353535;
+}</style></defs><title/><g><polyline class="cls-1" points="1 12.314 11 22.314 29.385 29.385 22.314 11 12.314 1"/><polyline class="cls-2" points="11 22.314 11.707 17.364 16.657 16.657 17.364 11.707 22.314 11"/><line class="cls-2" x1="21.60645" x2="25.8491" y1="25.84901" y2="21.60637"/></g><circle class="cls-3" cx="38.99937" cy="20.50006" r="1.5"/><path class="cls-3" d="M38.00006 46.99944V25.9996L39 26.9995H36a1 1 0 010-2h3a1.00009 1.00009.0 011.00009 1.00011V46.99944a1 1 0 01-2 0z"/><line class="cls-1" x1="36" x2="42" y1="47.00006" y2="47.00006"/></svg>

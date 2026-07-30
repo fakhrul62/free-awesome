@@ -1,0 +1,15 @@
+<svg id="Uploaded to svgrepo.com" xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 32 32"><style>.pictogram_een{fill:#F4D6B0;}
+.pictogram_twee{fill:#F8AD89;}
+.pictogram_drie{fill:#F27261;}
+.pictogram_vier{fill:#E54D2E;}
+.pictogram_vijf{fill:#01A59C;}
+.pictogram_zes{fill:#0C6667;}
+.st0{fill:none;}
+.st1{clip-path:url(#SVGID_2_);fill:#F27261;}
+.st2{clip-path:url(#SVGID_2_);fill:none;}
+.st3{clip-path:url(#SVGID_6_);fill:#F4D6B0;}
+.st4{clip-path:url(#SVGID_8_);fill:#F27261;}
+.st5{clip-path:url(#SVGID_8_);fill:none;}
+.st6{clip-path:url(#SVGID_10_);fill:#F27261;}
+.st7{clip-path:url(#SVGID_10_);fill:none;}
+.st8{fill:#F4D6B0;}</style><g><path class="pictogram_vijf" d="M32 29c0 1.65-1.35 3-3 3H3c-1.65.0-3-1.35-3-3V3c0-1.65 1.35-3 3-3h26c1.65.0 3 1.35 3 3V29z"/><polygon class="pictogram_een" points="0,20 0,24 32,24 32,20 20,20"/><path class="pictogram_twee" d="M0 29c0 .548.16 1.057.419 1.5C.941 29.609 1.898 29 3 29h17.25v0c0-1.65 1.294-3 2.875-3S26 27.35 26 29v.783c.006.006.013.01.02.016C26.121 28.244 27.36 27 28.875 27c1.581.0 2.875 1.35 2.875 3v.189C31.909 29.824 32 29.422 32 29v-5H0v5z"/><path class="pictogram_zes" d="M31.75 30.189V30c0-1.65-1.294-3-2.875-3-1.515.0-2.754 1.244-2.855 2.799-.006-.006-.013-.01-.02-.016V29c0-1.65-1.294-3-2.875-3s-2.875 1.35-2.875 3v0H3c-1.102.0-2.059.609-2.581 1.5C.941 31.391 1.898 32 3 32h26C30.228 32 31.287 31.251 31.75 30.189z"/><path class="pictogram_vier" d="M20 12V3c0-1.65-1.35-3-3-3h-2c-1.65.0-3 1.35-3 3v9H3c-1.65.0-3 1.35-3 3v5h20V12z"/><path class="pictogram_drie" d="M29 12h-9v8h12v-5c0-1.65-1.35-3-3-3z"/></g></svg>

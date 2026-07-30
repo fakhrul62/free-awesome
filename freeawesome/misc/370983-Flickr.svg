@@ -1,0 +1,6 @@
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd" [
+	<!ENTITY ns_flows "http://ns.adobe.com/Flows/1.0/">
+	<!ENTITY ns_extend "http://ns.adobe.com/Extensibility/1.0/">
+	<!ENTITY ns_ai "http://ns.adobe.com/AdobeIllustrator/10.0/">
+	<!ENTITY ns_graphs "http://ns.adobe.com/Graphs/1.0/">
+]><svg fill="#000" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="-.5 .5 42 42"><path d="M27.96 13.65c4.06.0 7.36 3.289 7.36 7.35s-3.301 7.35-7.36 7.35-7.35-3.289-7.35-7.35 3.29-7.35 7.35-7.35zm-15.92.0c4.06.0 7.35 3.289 7.35 7.35s-3.29 7.35-7.35 7.35S4.68 25.061 4.68 21s3.3-7.35 7.36-7.35zM.5 1.5v39h39v-39H.5z"/></svg>

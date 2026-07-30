@@ -1,0 +1,9 @@
+<svg width="800" height="800" viewBox="-.06 0 60 60" data-name="add to shopping cart" id="add_to_shopping_cart" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1 {
+fill: #d9b78b;
+}
+.cls-1, .cls-2 {
+fill-rule: evenodd;
+}
+.cls-2 {
+fill: #699f4c;
+}</style></defs><path class="cls-1" d="M940 942h-2a2 2 0 00-2 2v2a2 2 0 002 2h3.046a17.907 17.907.0 001.989 4H938a2 2 0 00-2 2v2a2 2 0 002 2h8a1.993 1.993.0 001.808-1.17 17.981 17.981.0 0020.192.135V968a4 4 0 01-4 4H920v7.418a.582.582.0 00.582.582h2.129a6.971 6.971.0 0112.615.0h15.383a7.009 7.009.0 11-.6 4H935.922a6.973 6.973.0 01-13.809.0H922v0h-2a4 4 0 01-4-4V934h-4a2 2 0 010-4h8v8h20.461A18.052 18.052.0 00940 942zm12 24a2 2 0 002 2h8a2 2 0 002-2v-2a2 2 0 00-2-2h-8a2 2 0 00-2 2v2zm-16 0a2 2 0 002 2h8a2 2 0 002-2v-2a2 2 0 00-2-2h-8a2 2 0 00-2 2v2zm21 19.937a3 3 0 10-3-3 3 3 0 003 3zm-28 0a3 3 0 10-3-3 3 3 0 003 3zM932 944a2 2 0 00-2-2h-8a2 2 0 00-2 2v2a2 2 0 002 2h8a2 2 0 002-2v-2zm0 10a2 2 0 00-2-2h-8a2 2 0 00-2 2v2a2 2 0 002 2h8a2 2 0 002-2v-2zm0 10a2 2 0 00-2-2h-8a2 2 0 00-2 2v2a2 2 0 002 2h8a2 2 0 002-2v-2z" data-name="shopping cart" id="shopping_cart" transform="translate(-910 -930)"/><path class="cls-2" d="M957.875 930a12 12 0 11-12 12 12 12 0 0112-12zM952 944h4v4a2 2 0 004 0v-4h4a2 2 0 000-4h-4v-4a2 2 0 00-4 0v4h-4a2 2 0 000 4z" data-name="add to favorites copy 3" id="add_to_favorites_copy_3" transform="translate(-910 -930)"/></svg>
