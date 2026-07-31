@@ -139,6 +139,21 @@ h1 {
   font-weight: 700;
 }
 
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.search-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
 .search-box input,
 .controls input,
 .controls select {
@@ -150,9 +165,43 @@ h1 {
 
 .search-box input {
   width: 100%;
-  padding: 12px 14px;
+  padding: 12px 46px 12px 14px;
   font-size: 16px;
   outline: none;
+}
+
+.search-clear-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--line);
+  background: #ffffff;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 var(--line);
+  border-radius: 0;
+  transition: transform 120ms ease, background 120ms ease, box-shadow 120ms ease;
+  padding: 0;
+}
+
+.search-clear-btn:hover {
+  background: #fee2e2;
+  color: #dc2626;
+  box-shadow: 2px 2px 0 var(--line);
+}
+
+.search-clear-btn:active {
+  transform: translateY(-50%) translate(1px, 1px);
+  box-shadow: 1px 1px 0 var(--line);
 }
 
 .search-box input:focus,

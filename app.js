@@ -66,6 +66,7 @@ const els = {
   totalCount: document.querySelector("#totalCount"),
   categoryCount: document.querySelector("#categoryCount"),
   searchInput: document.querySelector("#searchInput"),
+  clearSearch: document.querySelector("#clearSearch"),
   familyTabs: document.querySelector("#familyTabs"),
   styleTabs: document.querySelector("#styleTabs"),
   resultCount: document.querySelector("#resultCount"),
@@ -136,14 +137,30 @@ function init() {
 }
 
 function bindEvents() {
-  els.searchInput.addEventListener(
-    "input",
-    debounce((event) => {
-      state.query = normalize(event.target.value);
+  const handleSearchInput = debounce((val) => {
+    state.query = normalize(val);
+    state.visible = batchSize;
+    applyFilters();
+  });
+
+  els.searchInput.addEventListener("input", (event) => {
+    const hasValue = Boolean(event.target.value);
+    if (els.clearSearch) {
+      els.clearSearch.hidden = !hasValue;
+    }
+    handleSearchInput(event.target.value);
+  });
+
+  if (els.clearSearch) {
+    els.clearSearch.addEventListener("click", () => {
+      els.searchInput.value = "";
+      els.clearSearch.hidden = true;
+      state.query = "";
       state.visible = batchSize;
       applyFilters();
-    }),
-  );
+      els.searchInput.focus();
+    });
+  }
 
   els.loadMore.addEventListener("click", () => {
     state.visible += batchSize;

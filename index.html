@@ -7,9 +7,9 @@
     <meta name="theme-color" content="#f0f6fc" />
     <title>Apiro Free Icon Picker</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <link rel="stylesheet" href="styles.css?v=20260731-1" />
-    <script defer src="icon-manifest.js?v=20260731-1"></script>
-    <script defer src="app.js?v=20260731-1"></script>
+    <link rel="stylesheet" href="styles.css?v=20260731-2" />
+    <script defer src="icon-manifest.js?v=20260731-2"></script>
+    <script defer src="app.js?v=20260731-2"></script>
   </head>
   <body>
     <main class="app-shell">
@@ -30,7 +30,10 @@
         <section class="browser-panel" aria-label="Browse icons">
           <label class="search-box">
             <span>Search</span>
-            <input id="searchInput" type="search" placeholder="heart, github, arrow..." autocomplete="off" />
+            <div class="search-input-wrapper">
+              <input id="searchInput" type="search" placeholder="heart, github, arrow..." autocomplete="off" />
+              <button id="clearSearch" type="button" class="search-clear-btn" aria-label="Clear search" hidden>✕</button>
+            </div>
           </label>
 
           <div class="tabs-container">
