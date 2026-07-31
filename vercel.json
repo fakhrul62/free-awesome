@@ -37,20 +37,11 @@
       ]
     },
     {
-      "source": "/icon-manifest.js",
+      "source": "/(icon-manifest.js|app.js|styles.css)",
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "public, max-age=3600, stale-while-revalidate=86400"
-        }
-      ]
-    },
-    {
-      "source": "/(app.js|styles.css)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=3600, stale-while-revalidate=86400"
+          "value": "no-cache, no-store, must-revalidate"
         }
       ]
     }

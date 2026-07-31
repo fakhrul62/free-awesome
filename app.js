@@ -103,7 +103,8 @@ function toTitle(value) {
 }
 
 function prettyName(name) {
-  return name
+  const cleanName = name.replace(/^\d+-/, "");
+  return cleanName
     .split("-")
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join(" ");
@@ -123,14 +124,14 @@ function debounce(fn, wait = 120) {
 
 function init() {
   els.totalCount.textContent = `${icons.length.toLocaleString()} icons`;
-  els.categoryCount.textContent = `${FAMILIES.length - 1} libraries`;
+  els.categoryCount.textContent = `${FAMILIES.length - 1} styles`;
   updateControlValues();
   renderTabs();
   bindEvents();
   applyFilters();
 
   if (icons.length) {
-    selectIcon(icons.find((icon) => icon.name === "heart" && icon.category === "regular") || icons[0]);
+    selectIcon(icons.find((icon) => icon.name.includes("heart") && icon.category === "line") || icons[0]);
   }
 }
 
@@ -215,15 +216,10 @@ function renderStyleTabs(family) {
 
 function getActiveLabel() {
   if (state.family === "all") {
-    return "All libraries";
+    return "All styles";
   }
   const family = FAMILIES.find((f) => f.id === state.family);
-  if (!family) return "All libraries";
-  if (!family.styleLabels || state.style === "all") {
-    return family.name;
-  }
-  const styleLabel = family.styleLabels[state.style] || toTitle(state.style);
-  return `${family.name} / ${styleLabel}`;
+  return family ? family.name : "All styles";
 }
 
 function applyFilters() {
@@ -246,7 +242,9 @@ function applyFilters() {
   }
 
   state.filtered = query ? candidates.filter((icon) => {
-    return `${icon.name} ${icon.category}`.includes(query.replaceAll(" ", "-")) || normalize(`${icon.name} ${icon.category}`).includes(query);
+    const cleanName = icon.name.replace(/^\d+-/, "");
+    const searchTarget = normalize(`${cleanName} ${icon.name} ${icon.category}`);
+    return searchTarget.includes(query) || `${cleanName} ${icon.name}`.toLowerCase().includes(query);
   }) : candidates;
 
   els.iconScroll.scrollTop = 0;
