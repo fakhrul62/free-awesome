@@ -1,9 +1,0 @@
-<svg width="800" height="800" viewBox="-.06 0 60 60" data-name="remove from shopping cart" id="remove_from_shopping_cart" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1 {
-fill: #d9b78b;
-}
-.cls-1, .cls-2 {
-fill-rule: evenodd;
-}
-.cls-2 {
-fill: #9f4c4c;
-}</style></defs><path class="cls-1" d="M1080 942h-2a2 2 0 00-2 2v2a2 2 0 002 2h3.05a17.576 17.576.0 001.99 4H1078a2 2 0 00-2 2v2a2 2 0 002 2h8a2 2 0 001.81-1.17 17.977 17.977.0 0020.19.135V968a4 4 0 01-4 4h-44v7.418a.6.6.0 00.17.411.585.585.0 00.41.171h2.13a6.975 6.975.0 0112.62.0h15.38a7 7 0 11-.6 4h-14.19a6.973 6.973.0 01-13.81.0H1062v0h-2a4 4 0 01-4-4V934h-4a2 2 0 010-4h8v8h20.46A18.171 18.171.0 001080 942zm12 24a2 2 0 002 2h8a2 2 0 002-2v-2a2 2 0 00-2-2h-8a2 2 0 00-2 2v2zm-16 0a2 2 0 002 2h8a2 2 0 002-2v-2a2 2 0 00-2-2h-8a2 2 0 00-2 2v2zm21 19.937a3 3 0 10-3-3 3 3 0 003 3zm-28 0a3 3 0 10-3-3 3 3 0 003 3zM1072 944a2 2 0 00-2-2h-8a2 2 0 00-2 2v2a2 2 0 002 2h8a2 2 0 002-2v-2zm0 10a2 2 0 00-2-2h-8a2 2 0 00-2 2v2a2 2 0 002 2h8a2 2 0 002-2v-2zm0 10a2 2 0 00-2-2h-8a2 2 0 00-2 2v2a2 2 0 002 2h8a2 2 0 002-2v-2z" data-name="shopping cart" id="shopping_cart" transform="translate(-1050 -930)"/><path class="cls-2" d="M1097.87 930a12 12 0 11-12 12 12 12 0 0112-12zM1092 944h12a2 2 0 000-4h-12a2 2 0 000 4z" id="remove" transform="translate(-1050 -930)"/></svg>

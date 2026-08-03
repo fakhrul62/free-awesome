@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 2048 2048"><defs><style>.fil5 {fill:none}
-.fil3 {fill:#01579B}
-.fil0 {fill:#9C8B6F}
-.fil4 {fill:#01579B;fill-rule:nonzero}
-.fil2 {fill:#024A82;fill-rule:nonzero}
-.fil1 {fill:#B9A688;fill-rule:nonzero}</style></defs><g id="Layer_x0020_1"><g id="_439264288"><polygon class="fil0" points="769,841 822,841 1103,841 1229,841 1792,841 1792,1216 1096,1216 1096,1216 822,1216 822,1216 256,1216 256,841"/><path class="fil1" d="M728 1329c0 18-36 32-81 32s-81-14-81-32V719c0-18 36-32 81-32s81 14 81 32v610z"/><path class="fil2" d="M768 736h4e2c81 0 154 32 207 84s86 124 86 204c0 79-33 151-86 204-53 52-127 84-207 84H768v-64h4e2c63 0 121-25 162-66s67-97 67-158c0-62-26-117-67-158-42-41-99-66-162-66H768v-64z"/><path class="fil3" d="M791 717h15c20 0 36 16 36 36v90h-84v-93c0-18 15-33 33-33z"/><path class="fil3" d="M791 1342h15c20 0 36-16 36-36v-90h-84v93c0 18 15 33 33 33z"/><path class="fil4" d="M1074 997h429c18 0 32 14 32 32s-14 32-32 32h-429c-11 16-29 27-50 27-33 0-59-27-59-59 0-33 27-59 59-59 21 0 39 11 50 27z"/></g><rect class="fil5" width="2048" height="2048"/></g></svg>

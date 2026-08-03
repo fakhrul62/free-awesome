@@ -1,9 +1,0 @@
-<svg width="800" height="800" viewBox="0 0 60 60" data-name="remove from favorites" id="remove_from_favorites" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1 {
-fill: #9f4c4c;
-}
-.cls-1, .cls-2 {
-fill-rule: evenodd;
-}
-.cls-2 {
-fill: #c59494;
-}</style></defs><path class="cls-1" d="M957.875 126a12 12 0 11-12 12 12 12 0 0112-12zM952 140h12a2 2 0 000-4H952a2 2 0 000 4z" id="remove" transform="translate(-910 -90)"/><path class="cls-2" d="M965.88 121.835A17.975 17.975.0 00943.4 148.5l-.216.177a4.509 4.509.0 01-6.375.0S910 127.085 910 107a17 17 0 0117-17c7.625.0 11.562 6.057 13 6.057S945.375 90 953 90a17 17 0 0117 17c0 4.97-1.649 10.031-4.12 14.835z" id="favorite" transform="translate(-910 -90)"/></svg>

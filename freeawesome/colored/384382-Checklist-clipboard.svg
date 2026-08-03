@@ -1,9 +1,0 @@
-<svg width="800" height="800" viewBox="-8 0 60 60" id="clipboard" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1 {
-fill: #65727f;
-}
-.cls-1, .cls-2 {
-fill-rule: evenodd;
-}
-.cls-2 {
-fill: #b5997a;
-}</style></defs><path class="cls-1" d="M368 452h4a2 2 0 012-2h12a2 2 0 012 2h4v4H368v-4z" data-name="clipboard" id="clipboard-2" transform="translate(-358 -450)"/><path class="cls-2" d="M391.172 499.172A3.982 3.982.0 00390 502v8H362a4 4 0 01-4-4V456a4 4 0 014-4h2v6a2 2 0 002 2h28a2 2 0 002-2v-6h2a4 4 0 014 4v42m-8 12v-8h8zm-24-42h20a2 2 0 010 4H370a2 2 0 010-4zm0 10h20a2 2 0 010 4H370a2 2 0 010-4zm0 10h20a2 2 0 010 4H370a2 2 0 010-4z" data-name="clipboard copy" id="clipboard_copy" transform="translate(-358 -450)"/></svg>

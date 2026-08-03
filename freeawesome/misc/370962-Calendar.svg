@@ -1,6 +1,0 @@
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd" [
-	<!ENTITY ns_flows "http://ns.adobe.com/Flows/1.0/">
-	<!ENTITY ns_extend "http://ns.adobe.com/Extensibility/1.0/">
-	<!ENTITY ns_ai "http://ns.adobe.com/AdobeIllustrator/10.0/">
-	<!ENTITY ns_graphs "http://ns.adobe.com/Graphs/1.0/">
-]><svg fill="#000" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 42 42"><g><path d="M37.499 5.5H35.5v5.52c0 1.23-.234 1.48-1.484 1.48h-6.017c-1.25.0-1.499-.271-1.499-1.5V5.5h-11v5.52c0 1.23-.25 1.48-1.5 1.48H8c-1.25.0-1.5-.271-1.5-1.5V5.5h-2c-2.58.0-3 .561-3 3v28.998c-.01 2.43.6 3.002 3 3.002h32.999c2.55.0 3.001-.531 3.001-3.002V8.5c0-2.35-.381-3-3.001-3zM35.5 35.5h-29v-20h29v20z"/><path d="M10 10.5h2c1.25.0 1.5-.25 1.5-1.48v-5c0-1.25-.27-1.5-1.5-1.5L10 2.5c-1.189.0-1.5.28-1.5 1.5v5c0 1.229.25 1.5 1.5 1.5z"/><path d="M29.999 10.5h2c1.25.0 1.501-.25 1.501-1.48v-5c0-1.25-.27-1.5-1.5-1.5L30 2.5c-1.189.0-1.5.28-1.5 1.5v5C28.5 10.229 28.749 10.5 29.999 10.5z"/><rect x="10.5" y="19.5" width="5" height="5"/><rect x="18.5" y="19.5" width="5" height="5"/><rect x="26.5" y="19.5" width="5" height="5"/><rect x="10.5" y="27.5" width="5" height="5"/><rect x="18.5" y="27.5" width="5" height="5"/><rect x="26.5" y="27.5" width="5" height="5"/></g></svg>
