@@ -1,0 +1,9 @@
+<svg width="800" height="800" viewBox="0 0 59.938 59.938" data-name="bulb off" id="bulb_off" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1 {
+fill: #9daab8;
+}
+.cls-1, .cls-2 {
+fill-rule: evenodd;
+}
+.cls-2 {
+fill: #65727f;
+}</style></defs><path class="cls-1" d="M544.154 575.74l.019-.02a20.187 20.187.0 00-34.185 12.216l.071-.021s0 5.158-6.445 12.893c-2.335 2.8-2.185 7.561-2.185 7.561l10.1 10.1s4.738.166 7.538-2.169c7.737-6.445 12.894-6.445 12.894-6.445v.053A20.155 20.155.0 00544.154 575.74z" id="bulb" transform="translate(-490 -569.969)"/><path class="cls-2" d="M497.39 612.408l-6.948 8.686a2.021 2.021.0 00.148 2.689l5.522 5.522a2.018 2.018.0 002.69.149l8.686-6.949z" data-name="bulb" id="bulb-2" transform="translate(-490 -569.969)"/></svg>

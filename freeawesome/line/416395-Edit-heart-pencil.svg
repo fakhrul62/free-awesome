@@ -1,0 +1,14 @@
+<svg width="800" height="800" viewBox="0 0 48 48" data-name="Layer 1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1, .cls-2, .cls-3 {
+fill: none;
+stroke: #353535;
+stroke-width: 2px;
+}
+.cls-1, .cls-3 {
+stroke-miterlimit: 10;
+}
+.cls-2, .cls-3 {
+stroke-linecap: round;
+}
+.cls-2 {
+stroke-linejoin: round;
+}</style></defs><title/><path class="cls-1" d="M45.26372 29.75641a5.9442 5.9442.0 00-8.25762-.1517 5.945 5.945.0 00-8.26965 8.54072l8.24667 8.26909 8.26917-8.2467A5.94779 5.94779.0 0045.26372 29.75641z"/><g><polyline class="cls-2" points="1 12.314 8 19.313 26.384 26.384 19.313 8 12.314 1"/><polyline class="cls-3" points="8 19.313 8.707 14.364 13.656 13.656 14.364 8.707 19.313 8"/><line class="cls-3" x1="18.60626" x2="22.84891" y1="22.84882" y2="18.60618"/></g></svg>

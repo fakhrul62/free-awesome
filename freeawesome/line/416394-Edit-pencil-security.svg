@@ -1,0 +1,12 @@
+<svg width="800" height="800" viewBox="0 0 48 48" data-name="Layer 1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1, .cls-2 {
+fill: none;
+stroke: #353535;
+stroke-linecap: round;
+stroke-width: 2px;
+}
+.cls-1 {
+stroke-miterlimit: 10;
+}
+.cls-2 {
+stroke-linejoin: round;
+}</style></defs><title/><path class="cls-1" d="M38.68359 46.14287l5.77619-4.57006a7.839 7.839.0 002.49029-5.75039l.04986-8.21022-7.36305-3.46675-1.954-.00259L30.351 27.59014l-.04986 8.21021a7.83907 7.83907.0 002.47511 5.757z"/><g><polyline class="cls-2" points="1 12.314 8 19.313 26.384 26.384 19.313 8 12.314 1"/><polyline class="cls-1" points="8 19.313 8.707 14.364 13.656 13.656 14.364 8.707 19.313 8"/><line class="cls-1" x1="18.60626" x2="22.84891" y1="22.84882" y2="18.60618"/></g></svg>

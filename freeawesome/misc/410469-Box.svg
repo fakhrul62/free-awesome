@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 2048 2048"><defs><style>.fil10 {fill:none}
+.fil7 {fill:#19252B}
+.fil6 {fill:#28363D}
+.fil1 {fill:#37474F}
+.fil8 {fill:#455A64}
+.fil9 {fill:#546E7A}
+.fil5 {fill:#96866D}
+.fil0 {fill:#263238;fill-rule:nonzero}
+.fil4 {fill:#B9A688;fill-rule:nonzero}
+.fil3 {fill:#D4C2A3;fill-rule:nonzero}
+.fil2 {fill:#E4D1B1;fill-rule:nonzero}</style></defs><g id="Layer_x0020_1"><g id="_439265464"><path class="fil0" d="M1244 472v-54c0-18-7-34-19-45-12-12-29-19-47-19H873c-18 0-35 7-47 19s-19 28-19 45v54h-64v-54c0-35 15-68 38-91 24-23 56-38 91-38h305c36 0 68 14 91 38 24 23 38 56 38 91v54h-64z"/><rect class="fil1" x="699" y="446" width="159" height="34"/><rect class="fil1" x="1199" y="446" width="159" height="34"/><path class="fil2" d="M1793 703v927c0 35-15 68-38 91-24 23-56 38-91 38H388c-36 0-68-14-91-38-24-23-38-56-38-91V703c660 0 1130 0 1536 0z"/><path class="fil3" d="M1791 1653c-5 26-18 50-36 68-24 23-56 38-91 38H388c-36 0-68-14-91-38-18-18-31-42-36-68h1532z"/><path class="fil4" d="M387 477h1276c36 0 68 14 91 38 24 23 38 56 38 91v103c-435 0-944 0-1536 0V606c0-71 58-129 130-129z"/><rect class="fil5" x="255" y="701" width="1538" height="27"/><g><path class="fil6" d="M458 626h141v2e2c0 39-32 70-70 70-39 0-70-32-70-70V626z"/><path class="fil1" d="M615 783v48c0 47-39 86-86 86-47 0-86-39-86-86v-48h173z"/><path class="fil7" d="M536 829v33c0 4-4 8-8 8-4 0-8-4-8-8v-33c-4-3-7-7-7-12 0-8 6-15 15-15 8 0 15 6 15 15 0 5-3 10-7 12z"/><rect class="fil8" x="426" y="746" width="201" height="28"/><g><circle class="fil9" cx="496" cy="663" r="10"/><circle class="fil9" cx="561" cy="663" r="10"/></g></g><g><path class="fil6" d="M1453 626h141v2e2c0 39-32 70-70 70-39 0-70-32-70-70V626z"/><path class="fil1" d="M1610 783v48c0 47-39 86-86 86-47 0-86-39-86-86v-48h173z"/><path class="fil7" d="M1532 829v33c0 4-4 8-8 8-4 0-8-4-8-8v-33c-4-3-7-7-7-12 0-8 6-15 15-15 8 0 15 6 15 15 0 5-3 10-7 12z"/><rect class="fil8" x="1422" y="746" width="201" height="28"/><g><circle class="fil9" cx="1491" cy="663" r="10"/><circle class="fil9" cx="1556" cy="663" r="10"/></g></g></g><rect class="fil10" width="2048" height="2048"/></g></svg>

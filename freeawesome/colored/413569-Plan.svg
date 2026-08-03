@@ -1,0 +1,11 @@
+<svg id="Uploaded to svgrepo.com" xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 32 32"><style>.flatshadows_een{fill:#FDFFFF;}
+.flatshadows_twee{fill:#E1E5E5;}
+.flatshadows_drie{fill:#C4CCCC;}
+.flatshadows_vijf{fill:#8D9999;}
+.st0{fill:#A3AFAF;}
+.st1{fill:none;}
+.st2{fill:#737F7F;}
+.st3{fill:#FDFFFF;}
+.st4{fill:#E1E5E5;}
+.st5{fill:#C4CCCC;}
+.st6{fill:#FFFFFF;}</style><g><rect x="0" y="2" class="flatshadows_twee" width="32" height="28"/><rect x="4" y="6" class="flatshadows_een" width="24" height="20"/><polygon class="flatshadows_drie" points="32,8 32,30 6,30 3,27 29,27 29,5"/><path class="flatshadows_vijf" d="M24 14h-1v-1h1v1zm0-3h-1v1h1V11zm0-2h-1v1h1V9zm0-2h-1v1h1V7zm5-2v22H3V5H29zM28 6H13v9h2v1h-2v3h-1v-3h-2v-1h2V6H4v9h2v1H4v10h8v-3h1v3h15V16h-7v-1h7V6z"/></g></svg>

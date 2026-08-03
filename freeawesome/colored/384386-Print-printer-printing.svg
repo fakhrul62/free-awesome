@@ -1,0 +1,9 @@
+<svg width="800" height="800" viewBox="0 0 60 60" id="print" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1 {
+fill: #65727f;
+}
+.cls-1, .cls-2 {
+fill-rule: evenodd;
+}
+.cls-2 {
+fill: #b5997a;
+}</style></defs><path class="cls-1" d="M550 506a4 4 0 01-4 4 3.977 3.977.0 00-.257-1.485l-4-10A4.005 4.005.0 00538.032 496h-36a4 4 0 00-3.714 2.514l-4 10a3.977 3.977.0 00-.257 1.485H494a4 4 0 01-4-4h0V484a2.03 2.03.0 012-2h6v4h44v-4h6a2.03 2.03.0 012 2v22h0z" data-name="print" id="print-2" transform="translate(-490 -450)"/><path class="cls-2" d="M502 482V454a4 4 0 014-4h20v8a4 4 0 004 4h8v20H502zm28-32 8 8h-8v-8zm-28 50h36l4 10H498z" data-name="print" id="print-3" transform="translate(-490 -450)"/></svg>

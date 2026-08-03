@@ -1,0 +1,17 @@
+<svg width="800" height="800" viewBox="0 0 48 48" data-name="Layer 1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1, .cls-2, .cls-4 {
+fill: none;
+stroke: #353535;
+stroke-width: 2px;
+}
+.cls-1, .cls-4 {
+stroke-linecap: round;
+}
+.cls-1, .cls-2 {
+stroke-miterlimit: 10;
+}
+.cls-3 {
+fill: #353535;
+}
+.cls-4 {
+stroke-linejoin: round;
+}</style></defs><title/><g><path class="cls-1" d="M26.704 31.88092a10.89847 10.89847.0 004.69949 4.51994v8.20033l2.39931 2.39931h4.79863l2.39931-2.39931V36.40086a10.77219 10.77219.0 00-5.14261-20.42249 10.62759 10.62759.0 00-5.84737 1.99269"/><line class="cls-2" x1="36.20214" x2="36.20214" y1="40.51145" y2="27.96958"/><line class="cls-2" x1="31.40352" x2="41.00077" y1="40.51145" y2="40.51145"/><circle class="cls-3" cx="36.20214" cy="26.76992" r="1.79949"/></g><g><polyline class="cls-4" points="1 12.314 11 22.314 29.385 29.385 22.314 11 12.314 1"/><polyline class="cls-1" points="11 22.314 11.707 17.364 16.657 16.657 17.364 11.707 22.314 11"/><line class="cls-1" x1="21.60645" x2="25.8491" y1="25.84901" y2="21.60637"/></g></svg>

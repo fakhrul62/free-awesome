@@ -1,0 +1,9 @@
+<svg width="800" height="800" viewBox="0 -1 60 60" data-name="remove folder" id="remove_folder" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1 {
+fill: #d9b78b;
+}
+.cls-1, .cls-2 {
+fill-rule: evenodd;
+}
+.cls-2 {
+fill: #9f4c4c;
+}</style></defs><path class="cls-1" d="M118 840a18 18 0 00-14.965 28H78V836a4 4 0 014-4h24.344a4.01 4.01.0 002.828-1.172l3.656-3.656A4.01 4.01.0 01115.656 826H126a4 4 0 014 4v14.61A17.912 17.912.0 00118 840zm-6.635-17.544a5.972 5.972.0 00-1.951 1.3l-3.656 3.656a2 2 0 01-.656.436 1.967 1.967.0 01-.758.15H80a6 6 0 00-6 6v34a4 4 0 01-4-4V816a4 4 0 014-4H84.344a4.009 4.009.0 012.828 1.172l3.656 3.656A4.009 4.009.0 0093.656 818H120a4 4 0 014 4H113.656A5.906 5.906.0 00111.365 822.456z" data-name="folder copy" id="folder_copy" transform="translate(-70 -812)"/><path class="cls-2" d="M117.875 846a12 12 0 11-12 12 12 12 0 0112-12zM112 860h12a2 2 0 000-4H112a2 2 0 000 4z" data-name="add copy" id="add_copy" transform="translate(-70 -812)"/></svg>
