@@ -541,27 +541,154 @@ input[type="search"]::-webkit-search-results-decoration {
   box-shadow: 0px 0px 0 var(--line);
 }
 
-.color-controls-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+.color-swatch-palette {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   gap: 8px;
+  padding: 2px;
 }
 
-.color-control-item {
+.color-swatch-picker.square-swatch {
+  width: 36px;
+  height: 36px;
+  padding: 2px;
+  background: #ffffff;
+  border: 2px solid var(--line);
+  box-shadow: 2px 2px 0 var(--line);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.color-swatch-picker.square-swatch:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--line);
+}
+
+.color-swatch-picker.square-swatch:active {
+  transform: translate(1px, 1px);
+  box-shadow: 0px 0px 0 var(--line);
+}
+
+.swatch-popover {
+  position: absolute;
+  z-index: 1000;
+  width: 210px;
+  background: #ffffff;
+  border: 2px solid var(--line);
+  box-shadow: 4px 4px 0 var(--line);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  animation: popoverFadeIn 120ms ease-out;
+}
+
+@keyframes popoverFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.swatch-popover .popover-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 6px;
-  padding: 6px 8px;
-  border: 2px solid var(--line);
-  background: #ffffff;
-  box-shadow: 1px 1px 0 var(--line);
+  border-bottom: 2px solid var(--line-light);
+  padding-bottom: 6px;
 }
 
-.color-item-label {
+.swatch-popover .popover-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.swatch-popover .popover-close {
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--ink-muted);
+  line-height: 1;
+  padding: 0 4px;
+}
+
+.swatch-popover .popover-close:hover {
+  color: var(--accent-danger);
+}
+
+.swatch-popover .popover-hex-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.swatch-popover .popover-hex-label {
   font-size: 11px;
   font-weight: 700;
   color: var(--ink-muted);
+}
+
+.swatch-popover .hex-input-group {
+  display: flex;
+  align-items: center;
+  border: 2px solid var(--line);
+  box-shadow: 1px 1px 0 var(--line);
+  background: #ffffff;
+}
+
+.swatch-popover .hex-symbol {
+  padding: 4px 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-muted);
+  background: var(--bg-muted);
+  border-right: 2px solid var(--line);
+}
+
+.swatch-popover .popover-hex-input {
+  flex: 1;
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 6px 8px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.swatch-popover .popover-picker-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 4px;
+}
+
+.swatch-popover .popover-picker-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink-muted);
+}
+
+.swatch-popover .popover-native-picker {
+  width: 32px;
+  height: 32px;
+  padding: 2px;
+  background: #ffffff;
+  border: 2px solid var(--line);
+  box-shadow: 1px 1px 0 var(--line);
+  cursor: pointer;
 }
 
 .controls label {
