@@ -455,107 +455,8 @@ function extractSvgColors(svgText) {
   return Array.from(colorSet);
 }
 
-let currentPopover = null;
-
-function closeColorPopover() {
-  if (currentPopover) {
-    currentPopover.remove();
-    currentPopover = null;
-    document.removeEventListener("keydown", handlePopoverKeydown);
-    document.removeEventListener("pointerdown", handlePopoverClickOutside);
-  }
-}
-
-function handlePopoverKeydown(e) {
-  if (e.key === "Escape") closeColorPopover();
-}
-
-function handlePopoverClickOutside(e) {
-  if (currentPopover && !currentPopover.contains(e.target) && !e.target.closest(".square-swatch") && !e.target.closest("#iconColor")) {
-    closeColorPopover();
-  }
-}
-
-function openColorPopover(targetElem, initialColor, onColorChange, titleText = "HEX Color") {
-  closeColorPopover();
-
-  const popover = document.createElement("div");
-  popover.className = "swatch-popover";
-
-  const hexVal = initialColor.replace("#", "").toUpperCase();
-
-  popover.innerHTML = `
-    <div class="popover-header">
-      <span class="popover-title">${titleText}</span>
-      <button type="button" class="popover-close" title="Close">&times;</button>
-    </div>
-    <div class="popover-hex-wrapper">
-      <span class="popover-hex-label">HEX Code</span>
-      <div class="hex-input-group">
-        <span class="hex-symbol">#</span>
-        <input type="text" class="popover-hex-input" value="${hexVal}" maxlength="6" spellcheck="false" autocomplete="off" />
-      </div>
-    </div>
-    <div class="popover-picker-row">
-      <span class="popover-picker-label">Native picker:</span>
-      <input type="color" class="popover-native-picker" value="${initialColor}" />
-    </div>
-  `;
-
-  const closeBtn = popover.querySelector(".popover-close");
-  const hexInput = popover.querySelector(".popover-hex-input");
-  const nativePicker = popover.querySelector(".popover-native-picker");
-
-  closeBtn.addEventListener("click", closeColorPopover);
-
-  const applyColor = (colorHex) => {
-    let cleanHex = colorHex.replace(/[^0-9a-fA-F]/g, "").slice(0, 6);
-    if (cleanHex.length === 3) {
-      cleanHex = cleanHex.split("").map((c) => c + c).join("");
-    }
-    if (cleanHex.length === 6) {
-      const fullHex = `#${cleanHex.toUpperCase()}`;
-      nativePicker.value = fullHex;
-      onColorChange(fullHex);
-    }
-  };
-
-  hexInput.addEventListener("input", (e) => {
-    let val = e.target.value.replace(/[^0-9a-fA-F]/g, "").slice(0, 6).toUpperCase();
-    e.target.value = val;
-    applyColor(val);
-  });
-
-  nativePicker.addEventListener("input", (e) => {
-    const val = e.target.value.toUpperCase();
-    hexInput.value = val.replace("#", "");
-    onColorChange(val);
-  });
-
-  document.body.appendChild(popover);
-  currentPopover = popover;
-
-  const rect = targetElem.getBoundingClientRect();
-  const top = rect.bottom + window.scrollY + 6;
-  let left = rect.left + window.scrollX;
-  if (left + 230 > window.innerWidth) {
-    left = window.innerWidth - 240;
-  }
-  popover.style.top = `${top}px`;
-  popover.style.left = `${left}px`;
-
-  setTimeout(() => {
-    hexInput.focus();
-    hexInput.select();
-  }, 50);
-
-  document.addEventListener("keydown", handlePopoverKeydown);
-  document.addEventListener("pointerdown", handlePopoverClickOutside);
-}
-
 function renderColorControls() {
   if (!els.colorControlsContainer) return;
-  closeColorPopover();
 
   const detectedColors = extractSvgColors(state.svgText);
 
@@ -590,29 +491,20 @@ function renderColorControls() {
     palette.className = "color-swatch-palette";
 
     state.iconColors.forEach((layer, index) => {
-      const swatchBtn = document.createElement("button");
-      swatchBtn.type = "button";
-      swatchBtn.className = "color-swatch-picker square-swatch";
-      swatchBtn.style.backgroundColor = layer.current;
-      swatchBtn.title = `Layer ${index + 1} (${layer.current})`;
+      const colorInput = document.createElement("input");
+      colorInput.type = "color";
+      colorInput.className = "color-swatch-picker square-swatch";
+      colorInput.value = layer.current;
+      colorInput.title = `Layer ${index + 1} (${layer.current})`;
 
-      swatchBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        openColorPopover(
-          swatchBtn,
-          layer.current,
-          (newHex) => {
-            state.colorModified = true;
-            layer.current = newHex;
-            swatchBtn.style.backgroundColor = newHex;
-            swatchBtn.title = `Layer ${index + 1} (${newHex})`;
-            refreshPreview();
-          },
-          `Layer ${index + 1} Color`
-        );
+      colorInput.addEventListener("input", (e) => {
+        state.colorModified = true;
+        layer.current = e.target.value.toUpperCase();
+        colorInput.title = `Layer ${index + 1} (${layer.current})`;
+        refreshPreview();
       });
 
-      palette.append(swatchBtn);
+      palette.append(colorInput);
     });
 
     container.append(header, palette);
@@ -630,35 +522,26 @@ function renderColorControls() {
     const wrapper = document.createElement("div");
     wrapper.className = "color-control-wrapper";
 
-    const swatchBtn = document.createElement("button");
-    swatchBtn.type = "button";
-    swatchBtn.id = "iconColor";
-    swatchBtn.className = "color-swatch-picker square-swatch";
-    swatchBtn.style.backgroundColor = defaultColor;
-    swatchBtn.title = `Icon Color (${defaultColor})`;
-
     const labelSpan = document.createElement("span");
     labelSpan.className = "color-label-text";
     labelSpan.textContent = "Icon color";
 
-    swatchBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      openColorPopover(
-        swatchBtn,
-        state.iconColors[0].current,
-        (newHex) => {
-          state.colorModified = true;
-          state.iconColors[0].current = newHex;
-          swatchBtn.style.backgroundColor = newHex;
-          swatchBtn.title = `Icon Color (${newHex})`;
-          refreshPreview();
-        },
-        "Icon Color"
-      );
+    const colorInput = document.createElement("input");
+    colorInput.id = "iconColor";
+    colorInput.type = "color";
+    colorInput.className = "color-swatch-picker square-swatch";
+    colorInput.value = defaultColor;
+    colorInput.title = `Icon color (${defaultColor})`;
+
+    colorInput.addEventListener("input", (e) => {
+      state.colorModified = true;
+      state.iconColors[0].current = e.target.value.toUpperCase();
+      colorInput.title = `Icon color (${state.iconColors[0].current})`;
+      refreshPreview();
     });
 
-    wrapper.append(labelSpan, swatchBtn);
-    els.iconColor = swatchBtn;
+    wrapper.append(labelSpan, colorInput);
+    els.iconColor = colorInput;
     els.colorControlsContainer.replaceChildren(wrapper);
   }
 }
