@@ -582,6 +582,9 @@ function setDownloadsEnabled(enabled) {
 function editedSvg() {
   if (!state.svgText) return "";
   const weight = Number(els.strokeRange.value);
+
+  const detectedColors = extractSvgColors(state.svgText);
+  const isMultiColor = state.isMultiColor || detectedColors.length > 1 || (state.selected && state.selected.category === "colored");
   const primaryColor = state.iconColors[0] ? state.iconColors[0].current : "#0F172A";
 
   // Clean up BOM and comments from the whole SVG string
@@ -600,7 +603,7 @@ function editedSvg() {
   const isStroke = state.svgText.includes("stroke=") && !state.svgText.includes('stroke="none"') && !state.svgText.includes("stroke='none'");
 
   if (state.colorModified) {
-    if (state.isMultiColor && state.iconColors.length > 1) {
+    if (isMultiColor) {
       // Multi-color mode: replace each original color with its updated current color
       state.iconColors.forEach(({ original, current }) => {
         if (original && current && original.toUpperCase() !== current.toUpperCase()) {
@@ -631,7 +634,7 @@ function editedSvg() {
 
   if (!weight) {
     let rootAttrs = cleanAttrs;
-    if (state.colorModified && (!state.isMultiColor || state.iconColors.length <= 1)) {
+    if (state.colorModified && !isMultiColor) {
       const fillStrokeAttrs = isStroke ? `fill="none" stroke="${primaryColor}"` : `fill="${primaryColor}"`;
       rootAttrs = `${cleanAttrs} ${fillStrokeAttrs} color="${primaryColor}"`;
     }
@@ -670,8 +673,8 @@ function editedSvg() {
     filterH = newH;
   }
 
-  const floodColor = state.colorModified ? color : "currentColor";
-  const fillStrokeAttrs = state.colorModified ? (isStroke ? `fill="none" stroke="${color}"` : `fill="${color}"`) : "";
+  const floodColor = (state.colorModified && !isMultiColor) ? primaryColor : "currentColor";
+  const fillStrokeAttrs = (state.colorModified && !isMultiColor) ? (isStroke ? `fill="none" stroke="${primaryColor}"` : `fill="${primaryColor}"`) : "";
   const rootAttrs = `${newAttrs} ${fillStrokeAttrs} overflow="visible"`;
 
   return `<svg ${rootAttrs}><defs>${originalDefs.join("")}<filter id="${filterId}" x="${formatNumber(filterX)}" y="${formatNumber(filterY)}" width="${formatNumber(filterW)}" height="${formatNumber(filterH)}" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feMorphology in="SourceAlpha" operator="${operator}" radius="${formatNumber(radius)}" result="morph" /><feFlood flood-color="${floodColor}" result="flood" /><feComposite in="flood" in2="morph" operator="in" result="filled" /></filter></defs><g filter="url(#${filterId})">${body}</g></svg>`;
