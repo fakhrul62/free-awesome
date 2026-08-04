@@ -524,7 +524,12 @@ function renderColorControls() {
     els.colorControlsContainer.replaceChildren(container);
   } else {
     state.isMultiColor = false;
-    const defaultColor = detectedColors[0] || (state.iconColors[0] ? state.iconColors[0].current : "#0F172A");
+    let defaultColor = "#0F172A";
+    if (detectedColors[0] && /^#[0-9A-F]{6}$/i.test(detectedColors[0])) {
+      defaultColor = detectedColors[0];
+    } else if (state.iconColors[0] && /^#[0-9A-F]{6}$/i.test(state.iconColors[0].current)) {
+      defaultColor = state.iconColors[0].current;
+    }
     state.iconColors = [{ original: defaultColor, current: defaultColor }];
 
     const wrapper = document.createElement("div");
