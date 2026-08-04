@@ -78,6 +78,7 @@ const els = {
   previewBox: document.querySelector("#previewBox"),
   selectedName: document.querySelector("#selectedName"),
   selectedPath: document.querySelector("#selectedPath"),
+  iconHex: document.querySelector("#iconHex"),
   iconColor: document.querySelector("#iconColor"),
   exportSize: document.querySelector("#exportSize"),
   strokeRange: document.querySelector("#strokeRange"),
@@ -167,7 +168,33 @@ function bindEvents() {
     renderGrid();
   });
 
-  els.iconColor.addEventListener("input", refreshPreview);
+  els.iconColor.addEventListener("input", (event) => {
+    const val = event.target.value.toUpperCase().replace("#", "");
+    if (els.iconHex && els.iconHex.value.toUpperCase() !== val) {
+      els.iconHex.value = val;
+    }
+    refreshPreview();
+  });
+
+  if (els.iconHex) {
+    els.iconHex.addEventListener("input", (event) => {
+      let val = event.target.value.replace(/[^0-9a-fA-F]/g, "").slice(0, 6);
+      event.target.value = val.toUpperCase();
+      if (val.length === 3 || val.length === 6) {
+        let fullHex = val;
+        if (val.length === 3) {
+          fullHex = val.split("").map((c) => c + c).join("");
+        }
+        els.iconColor.value = `#${fullHex}`;
+        refreshPreview();
+      }
+    });
+
+    els.iconHex.addEventListener("blur", () => {
+      const currentVal = els.iconColor.value.toUpperCase().replace("#", "");
+      els.iconHex.value = currentVal;
+    });
+  }
   els.strokeRange.addEventListener("input", refreshPreview);
   els.paddingRange.addEventListener("input", refreshPreview);
   els.downloadSvg.addEventListener("click", () => downloadSvg());
