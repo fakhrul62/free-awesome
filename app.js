@@ -362,9 +362,9 @@ async function selectIcon(icon) {
   try {
     const response = await fetch(pathToUrl(icon.path));
     if (!response.ok) throw new Error(`Could not load ${icon.path}`);
-    const svgText = await response.text();
+    const rawSvgText = await response.text();
     if (requestId !== state.selectionRequest) return;
-    state.svgText = svgText;
+    state.svgText = convertStyleClassesToAttributes(rawSvgText);
     renderColorControls();
     refreshPreview();
     setDownloadsEnabled(true);
@@ -373,6 +373,68 @@ async function selectIcon(icon) {
     els.previewBox.innerHTML = '<span class="preview-message">Could not load icon. Open with start-icon-shelf.bat or http://127.0.0.1:5177/index.html</span>';
     console.error(error);
   }
+}
+
+function convertStyleClassesToAttributes(svgText) {
+  if (!svgText || !svgText.includes("<style")) return svgText;
+
+  const classMap = new Map();
+  const styleBlockMatches = svgText.match(/<style[\s\S]*?<\/style>/gi) || [];
+
+  styleBlockMatches.forEach((block) => {
+    const rules = block.match(/\.([a-zA-Z0-9_-]+)\s*\{([^}]+)\}/g) || [];
+    rules.forEach((rule) => {
+      const match = rule.match(/\.([a-zA-Z0-9_-]+)\s*\{([^}]+)\}/);
+      if (match) {
+        const className = match[1];
+        const cssProps = match[2];
+        const propObj = {};
+
+        const fillMatch = cssProps.match(/fill\s*:\s*([^;}\s]+)/i);
+        if (fillMatch) propObj.fill = fillMatch[1];
+
+        const strokeMatch = cssProps.match(/stroke\s*:\s*([^;}\s]+)/i);
+        if (strokeMatch) propObj.stroke = strokeMatch[1];
+
+        const opacityMatch = cssProps.match(/opacity\s*:\s*([^;}\s]+)/i);
+        if (opacityMatch) propObj.opacity = opacityMatch[1];
+
+        classMap.set(className, propObj);
+      }
+    });
+  });
+
+  if (classMap.size === 0) return svgText;
+
+  let cleanSvg = svgText.replace(/<style[\s\S]*?<\/style>/gi, "");
+
+  cleanSvg = cleanSvg.replace(/<([a-zA-Z0-9:-]+)\s+([^>]*?)class=["']([^"']+)["']([^>]*?)>/gi, (fullMatch, tagName, beforeAttrs, classList, afterAttrs) => {
+    const classes = classList.split(/\s+/);
+    let extraAttrs = "";
+    let remainingClasses = [];
+
+    classes.forEach((cls) => {
+      if (classMap.has(cls)) {
+        const props = classMap.get(cls);
+        if (props.fill && !beforeAttrs.includes("fill=") && !afterAttrs.includes("fill=")) {
+          extraAttrs += ` fill="${props.fill}"`;
+        }
+        if (props.stroke && !beforeAttrs.includes("stroke=") && !afterAttrs.includes("stroke=")) {
+          extraAttrs += ` stroke="${props.stroke}"`;
+        }
+        if (props.opacity && !beforeAttrs.includes("opacity=") && !afterAttrs.includes("opacity=")) {
+          extraAttrs += ` opacity="${props.opacity}"`;
+        }
+      } else {
+        remainingClasses.push(cls);
+      }
+    });
+
+    const classAttr = remainingClasses.length > 0 ? ` class="${remainingClasses.join(" ")}"` : "";
+    return `<${tagName} ${beforeAttrs.trim()}${classAttr}${extraAttrs} ${afterAttrs.trim()}>`.replace(/\s+/g, " ");
+  });
+
+  return cleanSvg;
 }
 
 function normalizeColorHex(col) {
