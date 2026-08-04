@@ -439,7 +439,10 @@ function editedSvg() {
       });
   }
 
-  const cleanAttrs = attributes;
+  let cleanAttrs = attributes;
+  if (!cleanAttrs.includes("xmlns=")) {
+    cleanAttrs = `xmlns="http://www.w3.org/2000/svg" ${cleanAttrs}`;
+  }
 
   if (!weight) {
     let rootAttrs = cleanAttrs;
@@ -544,6 +547,9 @@ function showCopyStatus(message) {
 
 async function downloadRaster(mimeType, extension) {
   if (!state.selected) return;
+  const svgText = editedSvg();
+  if (!svgText) return;
+
   const size = Number(els.exportSize.value);
   const padding = Number(els.paddingRange.value);
   const canvas = document.createElement("canvas");
@@ -552,24 +558,64 @@ async function downloadRaster(mimeType, extension) {
   const ctx = canvas.getContext("2d");
   ctx.clearRect(0, 0, size, size);
 
-  const svgBlob = new Blob([editedSvg()], { type: "image/svg+xml;charset=utf-8" });
-  const url = URL.createObjectURL(svgBlob);
+  // Encode SVG as a clean Data URL so Image() loads cross-domain on live sites without CORS or Blob URL restrictions
+  const dataUrl = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgText)}`;
   const img = new Image();
+  img.crossOrigin = "anonymous";
 
   try {
     await new Promise((resolve, reject) => {
-      img.onload = resolve;
-      img.onerror = reject;
-      img.src = url;
+      img.onload = () => resolve();
+      img.onerror = (e) => reject(e);
+      img.src = dataUrl;
     });
 
     const drawSize = Math.max(1, size - padding * 2);
     ctx.drawImage(img, padding, padding, drawSize, drawSize);
-    canvas.toBlob((blob) => {
-      if (blob) saveBlob(blob, exportName(extension));
-    }, mimeType);
-  } finally {
-    URL.revokeObjectURL(url);
+
+    if (canvas.toBlob) {
+      canvas.toBlob((blob) => {
+        if (blob) {
+          saveBlob(blob, exportName(extension));
+        } else {
+          fallbackCanvasDownload(canvas, extension, mimeType);
+        }
+      }, mimeType);
+    } else {
+      fallbackCanvasDownload(canvas, extension, mimeType);
+    }
+  } catch (error) {
+    console.error("Raster generation via Data URL failed, attempting Blob URL fallback...", error);
+    try {
+      const svgBlob = new Blob([svgText], { type: "image/svg+xml;charset=utf-8" });
+      const blobUrl = URL.createObjectURL(svgBlob);
+      const img2 = new Image();
+      await new Promise((resolve, reject) => {
+        img2.onload = resolve;
+        img2.onerror = reject;
+        img2.src = blobUrl;
+      });
+      const drawSize = Math.max(1, size - padding * 2);
+      ctx.drawImage(img2, padding, padding, drawSize, drawSize);
+      URL.revokeObjectURL(blobUrl);
+      fallbackCanvasDownload(canvas, extension, mimeType);
+    } catch (fallbackErr) {
+      console.error("Raster download failed:", fallbackErr);
+    }
+  }
+}
+
+function fallbackCanvasDownload(canvas, extension, mimeType) {
+  try {
+    const dataUrl = canvas.toDataURL(mimeType);
+    const a = document.createElement("a");
+    a.href = dataUrl;
+    a.download = exportName(extension);
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  } catch (e) {
+    console.error("DataURL download error:", e);
   }
 }
 
