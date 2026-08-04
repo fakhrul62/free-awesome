@@ -632,7 +632,7 @@ function editedSvg() {
     cleanAttrs = `xmlns="http://www.w3.org/2000/svg" ${cleanAttrs}`;
   }
 
-  if (!weight) {
+  if (!weight || isMultiColor) {
     let rootAttrs = cleanAttrs;
     if (state.colorModified && !isMultiColor) {
       const fillStrokeAttrs = isStroke ? `fill="none" stroke="${primaryColor}"` : `fill="${primaryColor}"`;
