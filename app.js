@@ -632,6 +632,12 @@ function editedSvg() {
     cleanAttrs = `xmlns="http://www.w3.org/2000/svg" ${cleanAttrs}`;
   }
 
+  if (!cleanAttrs.includes("style=")) {
+    cleanAttrs = `${cleanAttrs} style="forced-color-adjust: none;"`;
+  } else {
+    cleanAttrs = cleanAttrs.replace(/style=["']([^"']*)["']/i, (m, p1) => `style="${p1}; forced-color-adjust: none;"`);
+  }
+
   if (!weight || isMultiColor) {
     let rootAttrs = cleanAttrs;
     if (state.colorModified && !isMultiColor) {
