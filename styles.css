@@ -463,6 +463,66 @@ input[type="search"]::-webkit-search-results-decoration {
   gap: 10px;
 }
 
+.color-controls-container {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.color-controls-wrapper.multi-color-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.color-controls-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.reset-colors-btn {
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  border: 2px solid var(--line);
+  background: #ffffff;
+  color: var(--ink);
+  cursor: pointer;
+  box-shadow: 1px 1px 0 var(--line);
+  transition: transform 120ms ease, background 120ms ease;
+}
+
+.reset-colors-btn:hover {
+  background: #f1f5f9;
+  transform: translate(-1px, -1px);
+  box-shadow: 2px 2px 0 var(--line);
+}
+
+.reset-colors-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 0px 0px 0 var(--line);
+}
+
+.color-controls-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.color-control-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.color-item-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink-muted);
+}
+
 .color-control-wrapper {
   display: flex;
   flex-direction: column;
