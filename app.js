@@ -60,6 +60,7 @@ const state = {
   selected: null,
   svgText: "",
   selectionRequest: 0,
+  colorModified: false,
 };
 
 const els = {
@@ -78,6 +79,7 @@ const els = {
   previewBox: document.querySelector("#previewBox"),
   selectedName: document.querySelector("#selectedName"),
   selectedPath: document.querySelector("#selectedPath"),
+  iconHex: document.querySelector("#iconHex"),
   iconColor: document.querySelector("#iconColor"),
   exportSize: document.querySelector("#exportSize"),
   strokeRange: document.querySelector("#strokeRange"),
@@ -167,7 +169,42 @@ function bindEvents() {
     renderGrid();
   });
 
-  els.iconColor.addEventListener("input", refreshPreview);
+  const handleColorChange = (val) => {
+    state.colorModified = true;
+    const formatted = val.toUpperCase().replace("#", "");
+    if (els.iconHex && els.iconHex.value.toUpperCase() !== formatted) {
+      els.iconHex.value = formatted;
+    }
+    if (els.iconColor && els.iconColor.value.toUpperCase() !== `#${formatted}`) {
+      els.iconColor.value = `#${formatted}`;
+    }
+    refreshPreview();
+  };
+
+  els.iconColor.addEventListener("input", (e) => {
+    handleColorChange(e.target.value);
+  });
+
+  if (els.iconHex) {
+    els.iconHex.addEventListener("input", (e) => {
+      let val = e.target.value.replace(/[^0-9a-fA-F]/g, "").slice(0, 6);
+      e.target.value = val.toUpperCase();
+      if (val.length === 3 || val.length === 6) {
+        let fullHex = val;
+        if (val.length === 3) {
+          fullHex = val.split("").map((c) => c + c).join("");
+        }
+        handleColorChange(`#${fullHex}`);
+      }
+    });
+
+    els.iconHex.addEventListener("blur", () => {
+      if (state.colorModified && els.iconColor) {
+        const currentVal = els.iconColor.value.toUpperCase().replace("#", "");
+        els.iconHex.value = currentVal;
+      }
+    });
+  }
   els.strokeRange.addEventListener("input", refreshPreview);
   els.paddingRange.addEventListener("input", refreshPreview);
   els.downloadSvg.addEventListener("click", () => downloadSvg());
@@ -303,11 +340,11 @@ function renderGrid() {
   els.loadMore.hidden = state.visible >= state.filtered.length;
   els.emptyState.hidden = state.filtered.length > 0;
 }
-
 async function selectIcon(icon) {
   const requestId = ++state.selectionRequest;
   state.selected = icon;
   state.svgText = "";
+  state.colorModified = false;
   showCopyStatus("");
   els.selectedName.textContent = prettyName(icon.name);
   els.selectedPath.textContent = `${categoryLabels.get(icon.category)} / ${icon.name}.svg`;
@@ -370,7 +407,7 @@ function setDownloadsEnabled(enabled) {
 
 function editedSvg() {
   if (!state.svgText) return "";
-  const color = els.iconColor.value;
+  const color = els.iconColor ? els.iconColor.value : "#0F172A";
   const weight = Number(els.strokeRange.value);
 
   // Clean up BOM and comments from the whole SVG string
@@ -383,29 +420,34 @@ function editedSvg() {
 
   let [, attributes, content] = match;
 
-  // Only remove width/height and non-none fill/stroke from the root svg attributes
-  attributes = attributes
-    .replace(/\s(width|height)=["'][^"']*["']/g, "")
-    .replace(/\s(fill|stroke)=["'](?!none["'])[^"']*["']/g, "");
+  // Remove width/height from root attributes
+  attributes = attributes.replace(/\s(width|height)=["'][^"']*["']/g, "");
 
   const isStroke = state.svgText.includes("stroke=") && !state.svgText.includes('stroke="none"') && !state.svgText.includes("stroke='none'");
-  const cleanAttrs = attributes.replace(/\s(fill|stroke)=["'][^"']*["']/g, "");
 
-  // Update inner elements in content so user-selected color applies to all fills and strokes
-  content = content
-    .replace(/\sfill=["'](?!none["']|transparent["']|#00000000["'])[^"']*["']/gi, ` fill="${color}"`)
-    .replace(/\sstroke=["'](?!none["']|transparent["'])[^"']*["']/gi, ` stroke="${color}"`)
-    .replace(/\sstyle=["']([^"']*)["']/gi, (fullMatch, styleContent) => {
-      const updatedStyle = styleContent
-        .replace(/fill\s*:\s*(?!none\b)[^;"]+/gi, `fill: ${color}`)
-        .replace(/stroke\s*:\s*(?!none\b)[^;"]+/gi, `stroke: ${color}`);
-      return ` style="${updatedStyle}"`;
-    });
+  if (state.colorModified) {
+    // Only remove root fill/stroke and recolor inner elements when user explicitly changes color
+    attributes = attributes.replace(/\s(fill|stroke)=["'](?!none["'])[^"']*["']/g, "");
+    content = content
+      .replace(/\sfill=["'](?!none["']|transparent["']|#00000000["'])[^"']*["']/gi, ` fill="${color}"`)
+      .replace(/\sstroke=["'](?!none["']|transparent["'])[^"']*["']/gi, ` stroke="${color}"`)
+      .replace(/\sstyle=["']([^"']*)["']/gi, (fullMatch, styleContent) => {
+        const updatedStyle = styleContent
+          .replace(/fill\s*:\s*(?!none\b)[^;"]+/gi, `fill: ${color}`)
+          .replace(/stroke\s*:\s*(?!none\b)[^;"]+/gi, `stroke: ${color}`);
+        return ` style="${updatedStyle}"`;
+      });
+  }
+
+  const cleanAttrs = attributes;
 
   if (!weight) {
-    const fillStrokeAttrs = isStroke ? `fill="none" stroke="${color}"` : `fill="${color}"`;
-    const rootAttrs = `${cleanAttrs} ${fillStrokeAttrs} color="${color}" overflow="visible"`;
-    return `<svg${rootAttrs}>${content}</svg>`;
+    let rootAttrs = cleanAttrs;
+    if (state.colorModified) {
+      const fillStrokeAttrs = isStroke ? `fill="none" stroke="${color}"` : `fill="${color}"`;
+      rootAttrs = `${cleanAttrs} ${fillStrokeAttrs} color="${color}"`;
+    }
+    return `<svg ${rootAttrs} overflow="visible">${content}</svg>`;
   }
 
   const viewBox = parseViewBox(cleanAttrs);
@@ -440,10 +482,11 @@ function editedSvg() {
     filterH = newH;
   }
 
-  const fillStrokeAttrs = isStroke ? `fill="none" stroke="${color}"` : `fill="${color}"`;
-  const rootAttrs = `${newAttrs} ${fillStrokeAttrs} color="${color}" overflow="visible"`;
+  const floodColor = state.colorModified ? color : "currentColor";
+  const fillStrokeAttrs = state.colorModified ? (isStroke ? `fill="none" stroke="${color}"` : `fill="${color}"`) : "";
+  const rootAttrs = `${newAttrs} ${fillStrokeAttrs} overflow="visible"`;
 
-  return `<svg${rootAttrs}><defs>${originalDefs.join("")}<filter id="${filterId}" x="${formatNumber(filterX)}" y="${formatNumber(filterY)}" width="${formatNumber(filterW)}" height="${formatNumber(filterH)}" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feMorphology in="SourceAlpha" operator="${operator}" radius="${formatNumber(radius)}" result="morph" /><feFlood flood-color="${color}" result="flood" /><feComposite in="flood" in2="morph" operator="in" result="filled" /></filter></defs><g filter="url(#${filterId})">${body}</g></svg>`;
+  return `<svg ${rootAttrs}><defs>${originalDefs.join("")}<filter id="${filterId}" x="${formatNumber(filterX)}" y="${formatNumber(filterY)}" width="${formatNumber(filterW)}" height="${formatNumber(filterH)}" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feMorphology in="SourceAlpha" operator="${operator}" radius="${formatNumber(radius)}" result="morph" /><feFlood flood-color="${floodColor}" result="flood" /><feComposite in="flood" in2="morph" operator="in" result="filled" /></filter></defs><g filter="url(#${filterId})">${body}</g></svg>`;
 }
 
 function refreshPreview() {
