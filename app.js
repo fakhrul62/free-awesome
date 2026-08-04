@@ -61,6 +61,8 @@ const state = {
   svgText: "",
   selectionRequest: 0,
   colorModified: false,
+  iconColors: [],
+  isMultiColor: false,
 };
 
 const els = {
@@ -79,7 +81,7 @@ const els = {
   previewBox: document.querySelector("#previewBox"),
   selectedName: document.querySelector("#selectedName"),
   selectedPath: document.querySelector("#selectedPath"),
-  iconHex: document.querySelector("#iconHex"),
+  colorControlsContainer: document.querySelector("#colorControlsContainer"),
   iconColor: document.querySelector("#iconColor"),
   exportSize: document.querySelector("#exportSize"),
   strokeRange: document.querySelector("#strokeRange"),
@@ -363,12 +365,163 @@ async function selectIcon(icon) {
     const svgText = await response.text();
     if (requestId !== state.selectionRequest) return;
     state.svgText = svgText;
+    renderColorControls();
     refreshPreview();
     setDownloadsEnabled(true);
   } catch (error) {
     if (requestId !== state.selectionRequest) return;
     els.previewBox.innerHTML = '<span class="preview-message">Could not load icon. Open with start-icon-shelf.bat or http://127.0.0.1:5177/index.html</span>';
     console.error(error);
+  }
+}
+
+function normalizeColorHex(col) {
+  if (!col) return "";
+  col = col.trim().toLowerCase();
+  if (col === "none" || col === "currentcolor" || col === "transparent" || col === "#00000000" || col.startsWith("url(")) return "";
+  if (col.startsWith("#")) {
+    if (col.length === 4) {
+      return ("#" + col[1] + col[1] + col[2] + col[2] + col[3] + col[3]).toUpperCase();
+    }
+    if (col.length === 7) return col.toUpperCase();
+    if (col.length === 9) return col.slice(0, 7).toUpperCase();
+  }
+  const rgbMatch = col.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
+  if (rgbMatch) {
+    const r = Number(rgbMatch[1]).toString(16).padStart(2, "0");
+    const g = Number(rgbMatch[2]).toString(16).padStart(2, "0");
+    const b = Number(rgbMatch[3]).toString(16).padStart(2, "0");
+    return `#${r}${g}${b}`.toUpperCase();
+  }
+  return "";
+}
+
+function extractSvgColors(svgText) {
+  if (!svgText) return [];
+  const colorSet = new Set();
+
+  const fillMatches = svgText.match(/fill=["']([^"']+)["']/gi) || [];
+  fillMatches.forEach((m) => {
+    const val = m.replace(/fill=["']/i, "").replace(/["']$/, "");
+    const hex = normalizeColorHex(val);
+    if (hex) colorSet.add(hex);
+  });
+
+  const strokeMatches = svgText.match(/stroke=["']([^"']+)["']/gi) || [];
+  strokeMatches.forEach((m) => {
+    const val = m.replace(/stroke=["']/i, "").replace(/["']$/, "");
+    const hex = normalizeColorHex(val);
+    if (hex) colorSet.add(hex);
+  });
+
+  const styleMatches = svgText.match(/style=["']([^"']+)["']/gi) || [];
+  styleMatches.forEach((m) => {
+    const styleStr = m.replace(/style=["']/i, "").replace(/["']$/, "");
+    const subFills = styleStr.match(/fill\s*:\s*([^;"]+)/gi) || [];
+    subFills.forEach((f) => {
+      const val = f.replace(/fill\s*:\s*/i, "").trim();
+      const hex = normalizeColorHex(val);
+      if (hex) colorSet.add(hex);
+    });
+    const subStrokes = styleStr.match(/stroke\s*:\s*([^;"]+)/gi) || [];
+    subStrokes.forEach((s) => {
+      const val = s.replace(/stroke\s*:\s*/i, "").trim();
+      const hex = normalizeColorHex(val);
+      if (hex) colorSet.add(hex);
+    });
+  });
+
+  return Array.from(colorSet);
+}
+
+function renderColorControls() {
+  if (!els.colorControlsContainer) return;
+
+  const detectedColors = extractSvgColors(state.svgText);
+
+  if (detectedColors.length > 1) {
+    state.isMultiColor = true;
+    state.iconColors = detectedColors.slice(0, 12).map((orig) => ({
+      original: orig,
+      current: orig,
+    }));
+
+    const container = document.createElement("div");
+    container.className = "color-controls-wrapper multi-color-wrapper";
+
+    const header = document.createElement("div");
+    header.className = "color-controls-header";
+    header.innerHTML = `
+      <span class="color-label-text">Icon colors (${state.iconColors.length} layers)</span>
+      <button type="button" class="reset-colors-btn" title="Reset to original colors">Reset</button>
+    `;
+
+    const resetBtn = header.querySelector(".reset-colors-btn");
+    resetBtn.addEventListener("click", () => {
+      state.iconColors.forEach((layer) => {
+        layer.current = layer.original;
+      });
+      state.colorModified = false;
+      renderColorControls();
+      refreshPreview();
+    });
+
+    const grid = document.createElement("div");
+    grid.className = "color-controls-grid";
+
+    state.iconColors.forEach((layer, index) => {
+      const item = document.createElement("div");
+      item.className = "color-control-item";
+
+      const label = document.createElement("span");
+      label.className = "color-item-label";
+      label.textContent = `Color ${index + 1}`;
+
+      const colorInput = document.createElement("input");
+      colorInput.type = "color";
+      colorInput.className = "color-swatch-picker";
+      colorInput.value = layer.current;
+
+      colorInput.addEventListener("input", (e) => {
+        state.colorModified = true;
+        layer.current = e.target.value.toUpperCase();
+        refreshPreview();
+      });
+
+      item.append(label, colorInput);
+      grid.append(item);
+    });
+
+    container.append(header, grid);
+    els.colorControlsContainer.replaceChildren(container);
+  } else {
+    state.isMultiColor = false;
+    let defaultColor = "#0F172A";
+    if (detectedColors[0] && /^#[0-9A-F]{6}$/i.test(detectedColors[0])) {
+      defaultColor = detectedColors[0];
+    } else if (state.iconColors[0] && /^#[0-9A-F]{6}$/i.test(state.iconColors[0].current)) {
+      defaultColor = state.iconColors[0].current;
+    }
+    state.iconColors = [{ original: defaultColor, current: defaultColor }];
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "color-control-wrapper";
+
+    wrapper.innerHTML = `
+      <span class="color-label-text">Icon color</span>
+      <input id="iconColor" class="color-swatch-picker" type="color" value="${defaultColor}" title="Pick color" aria-label="Color picker swatch" />
+    `;
+
+    const colorInput = wrapper.querySelector("#iconColor");
+    els.iconColor = colorInput;
+
+    colorInput.addEventListener("input", (e) => {
+      state.colorModified = true;
+      state.iconColors[0].current = e.target.value.toUpperCase();
+      refreshPreview();
+    });
+
+    els.colorControlsContainer.replaceChildren(wrapper);
   }
 }
 
@@ -407,8 +560,8 @@ function setDownloadsEnabled(enabled) {
 
 function editedSvg() {
   if (!state.svgText) return "";
-  const color = els.iconColor ? els.iconColor.value : "#0F172A";
   const weight = Number(els.strokeRange.value);
+  const primaryColor = state.iconColors[0] ? state.iconColors[0].current : "#0F172A";
 
   // Clean up BOM and comments from the whole SVG string
   let svg = state.svgText
@@ -426,17 +579,28 @@ function editedSvg() {
   const isStroke = state.svgText.includes("stroke=") && !state.svgText.includes('stroke="none"') && !state.svgText.includes("stroke='none'");
 
   if (state.colorModified) {
-    // Only remove root fill/stroke and recolor inner elements when user explicitly changes color
-    attributes = attributes.replace(/\s(fill|stroke)=["'](?!none["'])[^"']*["']/g, "");
-    content = content
-      .replace(/\sfill=["'](?!none["']|transparent["']|#00000000["'])[^"']*["']/gi, ` fill="${color}"`)
-      .replace(/\sstroke=["'](?!none["']|transparent["'])[^"']*["']/gi, ` stroke="${color}"`)
-      .replace(/\sstyle=["']([^"']*)["']/gi, (fullMatch, styleContent) => {
-        const updatedStyle = styleContent
-          .replace(/fill\s*:\s*(?!none\b)[^;"]+/gi, `fill: ${color}`)
-          .replace(/stroke\s*:\s*(?!none\b)[^;"]+/gi, `stroke: ${color}`);
-        return ` style="${updatedStyle}"`;
+    if (state.isMultiColor && state.iconColors.length > 1) {
+      // Multi-color mode: replace each original color with its updated current color
+      state.iconColors.forEach(({ original, current }) => {
+        if (original && current && original.toUpperCase() !== current.toUpperCase()) {
+          const origEscaped = original.replace("#", "");
+          const hexRegex = new RegExp(`(#${origEscaped})`, "gi");
+          content = content.replace(hexRegex, current);
+        }
       });
+    } else {
+      // Single-color mode: update inner elements to apply primaryColor across all fills and strokes
+      attributes = attributes.replace(/\s(fill|stroke)=["'](?!none["'])[^"']*["']/g, "");
+      content = content
+        .replace(/\sfill=["'](?!none["']|transparent["']|#00000000["'])[^"']*["']/gi, ` fill="${primaryColor}"`)
+        .replace(/\sstroke=["'](?!none["']|transparent["'])[^"']*["']/gi, ` stroke="${primaryColor}"`)
+        .replace(/\sstyle=["']([^"']*)["']/gi, (fullMatch, styleContent) => {
+          const updatedStyle = styleContent
+            .replace(/fill\s*:\s*(?!none\b)[^;"]+/gi, `fill: ${primaryColor}`)
+            .replace(/stroke\s*:\s*(?!none\b)[^;"]+/gi, `stroke: ${primaryColor}`);
+          return ` style="${updatedStyle}"`;
+        });
+    }
   }
 
   let cleanAttrs = attributes;
@@ -446,9 +610,9 @@ function editedSvg() {
 
   if (!weight) {
     let rootAttrs = cleanAttrs;
-    if (state.colorModified) {
-      const fillStrokeAttrs = isStroke ? `fill="none" stroke="${color}"` : `fill="${color}"`;
-      rootAttrs = `${cleanAttrs} ${fillStrokeAttrs} color="${color}"`;
+    if (state.colorModified && (!state.isMultiColor || state.iconColors.length <= 1)) {
+      const fillStrokeAttrs = isStroke ? `fill="none" stroke="${primaryColor}"` : `fill="${primaryColor}"`;
+      rootAttrs = `${cleanAttrs} ${fillStrokeAttrs} color="${primaryColor}"`;
     }
     return `<svg ${rootAttrs} overflow="visible">${content}</svg>`;
   }
