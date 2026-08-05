@@ -364,7 +364,7 @@ async function selectIcon(icon) {
     if (!response.ok) throw new Error(`Could not load ${icon.path}`);
     const rawSvgText = await response.text();
     if (requestId !== state.selectionRequest) return;
-    state.svgText = convertStyleClassesToAttributes(rawSvgText);
+    state.svgText = sanitizeAndNormalizeSvg(rawSvgText);
     renderColorControls();
     refreshPreview();
     setDownloadsEnabled(true);
@@ -373,6 +373,45 @@ async function selectIcon(icon) {
     els.previewBox.innerHTML = '<span class="preview-message">Could not load icon. Open with start-icon-shelf.bat or http://127.0.0.1:5177/index.html</span>';
     console.error(error);
   }
+}
+
+function sanitizeAndNormalizeSvg(svgText) {
+  if (!svgText) return "";
+
+  // 1. Convert <style> classes (.cls-1 { fill: #... }) to direct fill/stroke/opacity presentation attributes
+  svgText = convertStyleClassesToAttributes(svgText);
+
+  // 2. Convert rgb(r, g, b) and rgba(r, g, b, a) values in fill/stroke/style to hex format
+  svgText = svgText.replace(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)(?:\s*,\s*[\d.]+)?\s*\)/gi, (match, r, g, b) => {
+    const hexR = Number(r).toString(16).padStart(2, "0");
+    const hexG = Number(g).toString(16).padStart(2, "0");
+    const hexB = Number(b).toString(16).padStart(2, "0");
+    return `#${hexR}${hexG}${hexB}`.toUpperCase();
+  });
+
+  // 3. Remove root fill="#000", fill="#000000", fill="black" from root <svg ...> tag
+  const match = svgText.match(/<svg\b([^>]*)>([\s\S]*?)<\/svg>/i);
+  if (!match) return svgText;
+
+  let [, attributes, content] = match;
+
+  // Clean root svg attributes: remove width, height, and root fill/stroke if it's #000 or black
+  attributes = attributes
+    .replace(/\s(width|height)=["'][^"']*["']/g, "")
+    .replace(/\sfill=["'](?:#000|#000000|black|#040000)["']/gi, "")
+    .replace(/\sstroke=["'](?:#000|#000000|black)["']/gi, "");
+
+  if (!attributes.includes("xmlns=")) {
+    attributes = `xmlns="http://www.w3.org/2000/svg" ${attributes}`;
+  }
+
+  if (!attributes.includes("style=")) {
+    attributes = `${attributes} style="forced-color-adjust: none;"`;
+  } else if (!attributes.includes("forced-color-adjust")) {
+    attributes = attributes.replace(/style=["']([^"']*)["']/i, (m, p1) => `style="${p1}; forced-color-adjust: none;"`);
+  }
+
+  return `<svg ${attributes.trim()} overflow="visible">${content}</svg>`;
 }
 
 function convertStyleClassesToAttributes(svgText) {
@@ -646,7 +685,7 @@ function editedSvg() {
   const weight = Number(els.strokeRange.value);
 
   const detectedColors = extractSvgColors(state.svgText);
-  const isMultiColor = state.isMultiColor || detectedColors.length > 1 || (state.selected && state.selected.category === "colored");
+  const isMultiColor = state.isMultiColor || detectedColors.length > 1 || (state.selected && (state.selected.category === "colored" || (state.selected.path && state.selected.path.includes("/colored/"))));
   const primaryColor = state.iconColors[0] ? state.iconColors[0].current : "#0F172A";
 
   // Clean up BOM and comments from the whole SVG string
