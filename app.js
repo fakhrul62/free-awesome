@@ -763,11 +763,8 @@ function editedSvg() {
     cleanAttrs = `xmlns="http://www.w3.org/2000/svg" ${cleanAttrs}`;
   }
 
-  if (!cleanAttrs.includes("style=")) {
-    cleanAttrs = `${cleanAttrs} style="forced-color-adjust: none;"`;
-  } else {
-    cleanAttrs = cleanAttrs.replace(/style=["']([^"']*)["']/i, (m, p1) => `style="${p1}; forced-color-adjust: none;"`);
-  }
+  // Strip any residual style= from root SVG attrs (forced-color-adjust is handled by CSS on .preview-box svg)
+  cleanAttrs = cleanAttrs.replace(/\s*style=["'][^"']*["']/gi, "");
 
   if (!weight || isMultiColor) {
     let rootAttrs = cleanAttrs;
@@ -775,7 +772,7 @@ function editedSvg() {
       const fillStrokeAttrs = isStroke ? `fill="none" stroke="${primaryColor}"` : `fill="${primaryColor}"`;
       rootAttrs = `${cleanAttrs} ${fillStrokeAttrs} color="${primaryColor}"`;
     }
-    return `<svg ${rootAttrs} overflow="visible">${content}</svg>`;
+    return convertInlineStylesToPresentationAttributes(`<svg ${rootAttrs} overflow="visible">${content}</svg>`);
   }
 
   const viewBox = parseViewBox(cleanAttrs);
@@ -814,7 +811,7 @@ function editedSvg() {
   const fillStrokeAttrs = (state.colorModified && !isMultiColor) ? (isStroke ? `fill="none" stroke="${primaryColor}"` : `fill="${primaryColor}"`) : "";
   const rootAttrs = `${newAttrs} ${fillStrokeAttrs} overflow="visible"`;
 
-  return `<svg ${rootAttrs}><defs>${originalDefs.join("")}<filter id="${filterId}" x="${formatNumber(filterX)}" y="${formatNumber(filterY)}" width="${formatNumber(filterW)}" height="${formatNumber(filterH)}" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feMorphology in="SourceAlpha" operator="${operator}" radius="${formatNumber(radius)}" result="morph" /><feFlood flood-color="${floodColor}" result="flood" /><feComposite in="flood" in2="morph" operator="in" result="filled" /></filter></defs><g filter="url(#${filterId})">${body}</g></svg>`;
+  return convertInlineStylesToPresentationAttributes(`<svg ${rootAttrs}><defs>${originalDefs.join("")}<filter id="${filterId}" x="${formatNumber(filterX)}" y="${formatNumber(filterY)}" width="${formatNumber(filterW)}" height="${formatNumber(filterH)}" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feMorphology in="SourceAlpha" operator="${operator}" radius="${formatNumber(radius)}" result="morph" /><feFlood flood-color="${floodColor}" result="flood" /><feComposite in="flood" in2="morph" operator="in" result="filled" /></filter></defs><g filter="url(#${filterId})">${body}</g></svg>`);
 }
 
 function refreshPreview() {
