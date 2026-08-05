@@ -243,12 +243,14 @@ function renderTabs() {
 
 function renderStyleTabs(family) {
   if (!family || !family.styleLabels) {
-    els.styleTabs.style.display = "none";
+    els.styleTabs.classList.add("tabs-hidden");
+    els.styleTabs.classList.remove("tabs-flex");
     els.styleTabs.innerHTML = "";
     return;
   }
 
-  els.styleTabs.style.display = "flex";
+  els.styleTabs.classList.remove("tabs-hidden");
+  els.styleTabs.classList.add("tabs-flex");
   const styles = ["all", ...family.categories];
   els.styleTabs.replaceChildren(
     ...styles.map((style) => {
@@ -389,7 +391,10 @@ function sanitizeAndNormalizeSvg(svgText) {
     return `#${hexR}${hexG}${hexB}`.toUpperCase();
   });
 
-  // 3. Remove root fill="#000", fill="#000000", fill="black" from root <svg ...> tag
+  // 3. Convert inline style="..." attributes to native SVG presentation attributes (100% CSP compliant)
+  svgText = convertInlineStylesToPresentationAttributes(svgText);
+
+  // 4. Remove root fill="#000", fill="#000000", fill="black" from root <svg ...> tag
   const match = svgText.match(/<svg\b([^>]*)>([\s\S]*?)<\/svg>/i);
   if (!match) return svgText;
 
@@ -405,13 +410,38 @@ function sanitizeAndNormalizeSvg(svgText) {
     attributes = `xmlns="http://www.w3.org/2000/svg" ${attributes}`;
   }
 
-  if (!attributes.includes("style=")) {
-    attributes = `${attributes} style="forced-color-adjust: none;"`;
-  } else if (!attributes.includes("forced-color-adjust")) {
-    attributes = attributes.replace(/style=["']([^"']*)["']/i, (m, p1) => `style="${p1}; forced-color-adjust: none;"`);
-  }
-
   return `<svg ${attributes.trim()} overflow="visible">${content}</svg>`;
+}
+
+function convertInlineStylesToPresentationAttributes(svgText) {
+  if (!svgText || !svgText.includes("style=")) return svgText;
+
+  return svgText.replace(/(<[a-zA-Z0-9:-]+\b[^>]*?)\s+style=["']([^"']*)["']([^>]*?>)/gi, (fullMatch, openTag, styleContent, closeTag) => {
+    let extraAttrs = "";
+    const stylePairs = styleContent.split(";");
+
+    stylePairs.forEach((pair) => {
+      const parts = pair.split(":");
+      if (parts.length === 2) {
+        const prop = parts[0].trim().toLowerCase();
+        const val = parts[1].trim();
+        if (prop && val && prop !== "forced-color-adjust") {
+          const presProps = [
+            "fill", "stroke", "stroke-width", "stroke-linecap", "stroke-linejoin",
+            "stroke-miterlimit", "stroke-dasharray", "stroke-dashoffset",
+            "fill-opacity", "stroke-opacity", "opacity", "stop-color", "stop-opacity"
+          ];
+          if (presProps.includes(prop)) {
+            if (!openTag.includes(`${prop}=`) && !closeTag.includes(`${prop}=`)) {
+              extraAttrs += ` ${prop}="${val}"`;
+            }
+          }
+        }
+      }
+    });
+
+    return `${openTag}${extraAttrs} ${closeTag}`.replace(/\s+/g, " ");
+  });
 }
 
 function convertStyleClassesToAttributes(svgText) {
@@ -658,7 +688,7 @@ function pathToUrl(path) {
 }
 
 function showFileModePreview(icon) {
-  els.previewBox.style.padding = `${Number(els.paddingRange.value) / 4}%`;
+  els.previewBox.style.setProperty("--preview-padding", `${Number(els.paddingRange.value) / 4}%`);
   els.previewBox.innerHTML = "";
 
   const img = document.createElement("img");
@@ -794,7 +824,7 @@ function refreshPreview() {
     return;
   }
   updateControlValues();
-  els.previewBox.style.padding = `${Number(els.paddingRange.value) / 4}%`;
+  els.previewBox.style.setProperty("--preview-padding", `${Number(els.paddingRange.value) / 4}%`);
   els.previewBox.innerHTML = editedSvg();
 }
 
@@ -815,8 +845,7 @@ async function copySvgCode() {
       const textarea = document.createElement("textarea");
       textarea.value = svg;
       textarea.setAttribute("readonly", "");
-      textarea.style.position = "fixed";
-      textarea.style.opacity = "0";
+      textarea.classList.add("clip-helper");
       document.body.append(textarea);
       textarea.select();
       const copied = document.execCommand("copy");

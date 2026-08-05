@@ -8,7 +8,13 @@
   --line: #0f172a;
   --sky: #76a7cf;
   --shadow: 5px 5px 0 #0f172a;
+  --preview-padding: 18%;
 }
+
+/* CSP-safe utility classes (never use inline style="...") */
+.tabs-hidden { display: none !important; }
+.tabs-flex   { display: flex !important; }
+.clip-helper { position: fixed !important; opacity: 0 !important; pointer-events: none !important; }
 
 * {
   box-sizing: border-box;
@@ -406,7 +412,7 @@ input[type="search"]::-webkit-search-results-decoration {
   display: grid;
   width: min(220px, 70%);
   aspect-ratio: 1;
-  padding: 18%;
+  padding: var(--preview-padding, 18%);
   overflow: hidden;
   place-items: center;
 }
