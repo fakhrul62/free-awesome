@@ -749,11 +749,23 @@ function editedSvg() {
       content = content
         .replace(/\sfill=["'](?!none["']|transparent["']|#00000000["'])[^"']*["']/gi, ` fill="${primaryColor}"`)
         .replace(/\sstroke=["'](?!none["']|transparent["'])[^"']*["']/gi, ` stroke="${primaryColor}"`)
+        // Convert any inline style fill/stroke to presentation attributes — never re-introduce style=""
         .replace(/\sstyle=["']([^"']*)["']/gi, (fullMatch, styleContent) => {
-          const updatedStyle = styleContent
-            .replace(/fill\s*:\s*(?!none\b)[^;"]+/gi, `fill: ${primaryColor}`)
-            .replace(/stroke\s*:\s*(?!none\b)[^;"]+/gi, `stroke: ${primaryColor}`);
-          return ` style="${updatedStyle}"`;
+          let extraAttrs = "";
+          styleContent.split(";").forEach((pair) => {
+            const colonIdx = pair.indexOf(":");
+            if (colonIdx === -1) return;
+            const prop = pair.slice(0, colonIdx).trim().toLowerCase();
+            let val = pair.slice(colonIdx + 1).trim();
+            if (!prop || !val) return;
+            if (prop === "fill" && !/^none$/i.test(val) && !/^transparent$/i.test(val)) val = primaryColor;
+            if (prop === "stroke" && !/^none$/i.test(val)) val = primaryColor;
+            const presProps = ["fill","stroke","stroke-width","stroke-linecap","stroke-linejoin",
+              "stroke-miterlimit","stroke-dasharray","stroke-dashoffset",
+              "fill-opacity","stroke-opacity","opacity","stop-color","stop-opacity"];
+            if (presProps.includes(prop)) extraAttrs += ` ${prop}="${val}"`;
+          });
+          return extraAttrs;
         });
     }
   }
@@ -763,8 +775,11 @@ function editedSvg() {
     cleanAttrs = `xmlns="http://www.w3.org/2000/svg" ${cleanAttrs}`;
   }
 
-  // Strip any residual style= from root SVG attrs (forced-color-adjust is handled by CSS on .preview-box svg)
-  cleanAttrs = cleanAttrs.replace(/\s*style=["'][^"']*["']/gi, "");
+  // Strip any residual style= and overflow= from root SVG attrs
+  // (forced-color-adjust is handled by CSS on .preview-box svg; overflow is re-added below)
+  cleanAttrs = cleanAttrs
+    .replace(/\s*style=["'][^"']*["']/gi, "")
+    .replace(/\s*overflow=["'][^"']*["']/gi, "");
 
   if (!weight || isMultiColor) {
     let rootAttrs = cleanAttrs;
